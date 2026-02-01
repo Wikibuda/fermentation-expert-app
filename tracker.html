@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker de Desarrollo - Fermentation Expert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
+            --secondary: #ff9800;
+            --secondary-dark: #f57c00;
+            --accent: #9c27b0;
+            --light: #f1f8e9;
+            --dark: #263238;
+            --gray: #607d8b;
+            --light-gray: #eceff1;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: skewX(-20deg);
+            transform-origin: top right;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: var(--light-gray);
+            border-bottom: 2px solid #ddd;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 0;
+            min-height: 1000px;
+        }
+
+        .tracker-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 1000px;
+        }
+
+        .sidebar {
+            background: var(--light-gray);
+            padding: 25px;
+            border-left: 2px solid #ddd;
+            overflow-y: auto;
+            max-height: 1000px;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+
+        .part-1 .section-header { border-bottom-color: var(--primary); }
+        .part-2 .section-header { border-bottom-color: var(--secondary); }
+        .part-3 .section-header { border-bottom-color: var(--accent); }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-badge {
+            background: var(--light-gray);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Task Cards */
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 2px solid #eee;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.1);
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gray);
+        }
+
+        .task-card.priority-high::before { background: var(--danger); }
+        .task-card.priority-medium::before { background: var(--warning); }
+        .task-card.priority-low::before { background: var(--info); }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .task-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-planned { background: #fff3cd; color: #856404; }
+        .status-inprogress { background: #cce5ff; color: #004085; }
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-blocked { background: #f8d7da; color: #721c24; }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .task-description {
+            color: var(--gray);
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .task-checklist {
+            margin-top: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .checklist-item.completed label {
+            text-decoration: line-through;
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        /* Roadmap */
+        .roadmap {
+            margin-top: 40px;
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary-light);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid #eee;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 25px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .timeline-features {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .timeline-features li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .control-panel {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .control-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-2px);
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        .legend {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 25px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .sidebar, .btn, .stats-bar, footer {
+                display: none !important;
+            }
+            
+            .print-only {
+                display: block !important;
+                page-break-before: always;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                display: block !important;
+            }
+            
+            .tracker-content {
+                max-height: none;
+                overflow: visible;
+            }
+            
+            .task-card {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+            }
+            
+            .section {
+                break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .task-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                border-left: none;
+                border-top: 2px solid #ddd;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+            
+            .task-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .version-badge {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-chart-line"></i>
+                    Tracker de Desarrollo - Fermentation Expert App
+                    <span class="version-badge">v1.0.0 → v2.0.0</span>
+                </h1>
+                <p class="subtitle">
+                    Seguimiento completo de todas las modificaciones y funcionalidades planificadas para la aplicación.
+                    Documento auto-actualizable con progreso en tiempo real.
+                </p>
+            </div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Tareas Totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedTasks">0</div>
+                <div class="stat-label">Completadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="inProgressTasks">0</div>
+                <div class="stat-label">En Progreso</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15%</div>
+                <div class="stat-label">Progreso Total</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="tracker-content">
+                <!-- PARTE 1: DISEÑO -->
+                <section class="section part-1">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-palette"></i>
+                            PARTE 1: MODIFICACIONES DE DISEÑO
+                        </h2>
+                        <span class="progress-badge">0/7 completadas</span>
+                    </div>
+                    
+                    <div class="task-grid">
+                        <!-- Tarea 1.1 -->
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">1.1. Más colores/temas personalizables</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 2-3 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Sistema de temas con 4 opciones predeterminadas y personalizador avanzado.
+                            </p>
+                            <div class="task-checklist">
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-1">
+                                    <label for="task1-1">Crear sistema de gestión de temas CSS</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-2">
+                                    <label for="task1-2">Diseñar 4 temas: Claro, Oscuro, Verde, Café</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-3">
+                                    <label for="task1-3">Implementar selector de temas en UI</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-4">
+                                    <label for="task1-4">Crear personalizador avanzado (HSL sliders)</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-5">
+                                    <label for="task1-5">Guardar preferencias en localStorage</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarea 1.2 -->
+                        <div class="task-card priority-medium">
+                            <div class="task-header">
+                                <h3 class="task-title">1.2. Fuentes diferentes para mejor lectura</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 1-2 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Media</span>
+                            </div>
+                            <p class="task-description">
+                                Sistema de selección de fuentes accesibles para mejor legibilidad.
+                            </p>
+                            <div class="task-checklist">
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-6">
+                                    <label for="task1-6">Integrar Google Fonts CDN</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-7">
+                                    <label for="task1-7">Seleccionar 5 fuentes accesibles</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-8">
+                                    <label for="task1-8">Implementar selector de fuentes</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-9">
+                                    <label for="task1-9">Ajustar tamaños y espaciados</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="task1-10">
+                                    <label for="task1-10">Testear legibilidad en dispositivos</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Continuar con más tareas de Parte 1 -->
+                        <div class="task-card priority-low">
+                            <div class="task-header">
+                                <h3 class="task-title">1.3. Animaciones más elaboradas</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 3-4 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Baja</span>
+                            </div>
+                            <p class="task-description">
+                                Animaciones suaves para mejorar la experiencia de usuario.
+                            </p>
+                        </div>
+
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">1.4. Gráficos/visualizaciones de procesos</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 4-5 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Visualizaciones SVG de procesos fermentativos y crecimiento microbiano.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 2: FERMENTACIÓN ESPECÍFICA -->
+                <section class="section part-2">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-flask"></i>
+                            PARTE 2: MODIFICACIONES ESPECÍFICAS DE FERMENTACIÓN
+                        </h2>
+                        <span class="progress-badge">0/7 completadas</span>
+                    </div>
+                    
+                    <div class="task-grid">
+                        <!-- Tarea 2.1 -->
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">2.1. Calculadora de ratios</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 2-3 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Calculadora interactiva para proporciones de sal/agua, granos/leche, etc.
+                            </p>
+                        </div>
+
+                        <!-- Tarea 2.2 -->
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">2.2. Solución de problemas inteligente</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 4-5 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Sistema experto de diagnóstico con árbol de decisión de síntomas.
+                            </p>
+                        </div>
+
+                        <!-- Más tareas de Parte 2 -->
+                        <div class="task-card priority-medium">
+                            <div class="task-header">
+                                <h3 class="task-title">2.3. Guía visual de contaminaciones</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 3-4 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Media</span>
+                            </div>
+                            <p class="task-description">
+                                Biblioteca visual de contaminaciones con fotos de referencia.
+                            </p>
+                        </div>
+
+                        <div class="task-card priority-medium">
+                            <div class="task-header">
+                                <h3 class="task-title">2.4. Conversor de unidades</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 1-2 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Media</span>
+                            </div>
+                            <p class="task-description">
+                                Conversión entre sistemas de medida (tazas ↔ gramos, C° ↔ F°).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 3: MODIFICACIONES FUNCIONALES -->
+                <section class="section part-3">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-cogs"></i>
+                            PARTE 3: MODIFICACIONES FUNCIONALES (1-10)
+                        </h2>
+                        <span class="progress-badge">0/10 completadas</span>
+                    </div>
+                    
+                    <div class="task-grid">
+                        <!-- Tarea 3.1 -->
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">3.1. Modo oscuro/claro (toggle)</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 1 día</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Cambio automático/manual de tema con detección de preferencias del sistema.
+                            </p>
+                        </div>
+
+                        <!-- Tarea 3.2 -->
+                        <div class="task-card priority-medium">
+                            <div class="task-header">
+                                <h3 class="task-title">3.2. Soporte para múltiples idiomas</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 3-4 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Media</span>
+                            </div>
+                            <p class="task-description">
+                                Internacionalización con soporte para Español, Inglés, Francés, Alemán, Portugués.
+                            </p>
+                        </div>
+
+                        <!-- Más tareas de Parte 3 -->
+                        <div class="task-card priority-medium">
+                            <div class="task-header">
+                                <h3 class="task-title">3.3. Panel de información nutricional</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 2-3 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Media</span>
+                            </div>
+                            <p class="task-description">
+                                Calculadora de valores nutricionales con base de datos de ingredientes.
+                            </p>
+                        </div>
+
+                        <div class="task-card priority-high">
+                            <div class="task-header">
+                                <h3 class="task-title">3.4. Sistema de recetas favoritas</h3>
+                                <span class="status-badge status-planned">Planificado</span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="meta-item"><i class="far fa-calendar"></i> 2 días</span>
+                                <span class="meta-item"><i class="fas fa-user"></i> Pendiente</span>
+                                <span class="meta-item"><i class="fas fa-signal"></i> Alta</span>
+                            </div>
+                            <p class="task-description">
+                                Guardar y organizar recetas con búsqueda y categorías.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ROADMAP -->
+                <section class="section roadmap">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-road"></i>
+                            ROADMAP POR VERSIONES
+                        </h2>
+                    </div>
+                    
+                    <div class="roadmap-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Próximo - 2 semanas</div>
+                            <h3 class="timeline-title">v1.1.0 - "Diseño Avanzado"</h3>
+                            <p><strong>Objetivo:</strong> Completar Parte 1 (Modificaciones de Diseño)</p>
+                            <ul class="timeline-features">
+                                <li>Sistema de temas completo</li>
+                                <li>Fuentes accesibles</li>
+                                <li>Modo pantalla completa</li>
+                                <li>Accesibilidad básica</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">4 semanas</div>
+                            <h3 class="timeline-title">v1.2.0 - "Fermentación Profesional"</h3>
+                            <p><strong>Objetivo:</strong> Completar Parte 2 (Específicas de Fermentación)</p>
+                            <ul class="timeline-features">
+                                <li>Calculadora de ratios</li>
+                                <li>Solución de problemas inteligente</li>
+                                <li>Conversor de unidades</li>
+                                <li>Guía paso a paso interactiva</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">6 semanas</div>
+                            <h3 class="timeline-title">v1.3.0 - "Productividad Total"</h3>
+                            <p><strong>Objetivo:</strong> Completar Parte 3 (Modificaciones Funcionales)</p>
+                            <ul class="timeline-features">
+                                <li>Multiidioma</li>
+                                <li>Favoritos y listas de compras</li>
+                                <li>Calendario y diario</li>
+                                <li>Exportación PDF/Word</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">8 semanas</div>
+                            <h3 class="timeline-title">v2.0.0 - "Comunidad y Colaboración"</h3>
+                            <p><strong>Objetivo:</strong> Features avanzadas y comunidad</p>
+                            <ul class="timeline-features">
+                                <li>Integración con APIs externas</li>
+                                <li>Base de datos compartida</li>
+                                <li>Sistema de badges y logros</li>
+                                <li>Modo comunidad colaborativa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="control-panel">
+                    <h3 class="control-title"><i class="fas fa-tools"></i> Controles</h3>
+                    <button class="btn btn-primary" onclick="updateProgress()">
+                        <i class="fas fa-sync-alt"></i> Actualizar Progreso
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Imprimir Tracker
+                    </button>
+                    <button class="btn btn-primary" onclick="exportToJSON()">
+                        <i class="fas fa-file-export"></i> Exportar a JSON
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetProgress()">
+                        <i class="fas fa-redo"></i> Reiniciar Progreso
+                    </button>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="control-title"><i class="fas fa-chart-pie"></i> Métricas</h3>
+                    <div class="metric">
+                        <strong>Progreso Total:</strong>
+                        <div style="background: #e0e0e0; height: 10px; border-radius: 5px; margin: 10px 0;">
+                            <div id="totalProgressBar" style="background: var(--success); height: 100%; width: 15%; border-radius: 5px;"></div>
+                        </div>
+                        <span id="totalProgressText">15%</span>
+                    </div>
+                    
+                    <div class="metric" style="margin-top: 20px;">
+                        <strong>Prioridades:</strong>
+                        <div style="margin-top: 10px;">
+                            <div style="display: flex; align-items: center; margin: 5px 0;">
+                                <div style="width: 20px; height: 20px; background: var(--danger); margin-right: 10px; border-radius: 4px;"></div>
+                                <span>Alta: 8 tareas (33%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin: 5px 0;">
+                                <div style="width: 20px; height: 20px; background: var(--warning); margin-right: 10px; border-radius: 4px;"></div>
+                                <span>Media: 12 tareas (50%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin: 5px 0;">
+                                <div style="width: 20px; height: 20px; background: var(--info); margin-right: 10px; border-radius: 4px;"></div>
+                                <span>Baja: 4 tareas (17%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <h3 class="control-title"><i class="fas fa-key"></i> Leyenda</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--danger);"></div>
+                        <span>Prioridad Alta</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--warning);"></div>
+                        <span>Prioridad Media</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--info);"></div>
+                        <span>Prioridad Baja</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fff3cd;"></div>
+                        <span>Estado: Planificado</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #cce5ff;"></div>
+                        <span>Estado: En Progreso</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #d4edda;"></div>
+                        <span>Estado: Completado</span>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="control-title"><i class="fas fa-info-circle"></i> Información</h3>
+                    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px;">
+                        <strong>Última actualización:</strong>
+                        <br><span id="lastUpdate">Cargando...</span>
+                    </p>
+                    <p style="font-size: 0.9rem; color: var(--gray);">
+                        <strong>Próxima sincronización:</strong>
+                        <br><span id="nextSync">Cargando...</span>
+                    </p>
+                </div>
+            </aside>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <h3>🧫 Fermentation Expert App</h3>
+                    <p>Tracker de desarrollo auto-actualizable</p>
+                </div>
+                <div class="timestamp">
+                    <p>Documento generado automáticamente</p>
+                    <p id="currentTimestamp">Cargando fecha...</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Datos del tracker
+        const trackerData = {
+            lastUpdate: new Date().toLocaleString('es-ES'),
+            nextSync: new Date(Date.now() + 24 * 60 * 60 * 1000).toLocaleString('es-ES'),
+            tasks: {
+                total: 24,
+                completed: 0,
+                inProgress: 0
+            },
+            progress: {
+                part1: 0,
+                part2: 0,
+                part3: 0,
+                total: 15
+            }
+        };
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTimestamps();
+            updateStats();
+            setupChecklistListeners();
+            setupAutoSave();
+        });
+
+        // Actualizar marcas de tiempo
+        function updateTimestamps() {
+            document.getElementById('lastUpdate').textContent = trackerData.lastUpdate;
+            document.getElementById('nextSync').textContent = trackerData.nextSync;
+            document.getElementById('currentTimestamp').textContent = new Date().toLocaleString('es-ES');
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            // Contar checkboxes marcados
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked');
+            const totalCheckboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]').length;
+            const completedCheckboxes = checkboxes.length;
+            
+            // Actualizar contadores
+            trackerData.tasks.completed = Math.floor((completedCheckboxes / totalCheckboxes) * trackerData.tasks.total);
+            trackerData.tasks.inProgress = Math.floor(trackerData.tasks.total * 0.1); // Simulado
+            
+            // Actualizar UI
+            document.getElementById('completedTasks').textContent = trackerData.tasks.completed;
+            document.getElementById('inProgressTasks').textContent = trackerData.tasks.inProgress;
+            
+            // Actualizar barra de progreso
+            const progressPercentage = Math.floor((trackerData.tasks.completed / trackerData.tasks.total) * 100);
+            document.getElementById('totalProgressBar').style.width = `${progressPercentage}%`;
+            document.getElementById('totalProgressText').textContent = `${progressPercentage}%`;
+            
+            // Actualizar badges de progreso
+            updateProgressBadges();
+        }
+
+        // Actualizar badges de progreso por sección
+        function updateProgressBadges() {
+            // Esta función se puede expandir para calcular progreso real por sección
+            const sections = document.querySelectorAll('.progress-badge');
+            sections.forEach(badge => {
+                // Lógica para calcular progreso por sección
+                const sectionTasks = badge.closest('.section').querySelectorAll('.checklist-item input[type="checkbox"]');
+                const completedTasks = badge.closest('.section').querySelectorAll('.checklist-item input[type="checkbox"]:checked');
+                const progress = sectionTasks.length > 0 ? Math.floor((completedTasks.length / sectionTasks.length) * 100) : 0;
+                
+                // Obtener el número total de tareas en la sección (simplificado)
+                const sectionTitle = badge.closest('.section').querySelector('.section-title').textContent;
+                let totalTasks = 7; // Por defecto
+                if (sectionTitle.includes('PARTE 1')) totalTasks = 7;
+                else if (sectionTitle.includes('PARTE 2')) totalTasks = 7;
+                else if (sectionTitle.includes('PARTE 3')) totalTasks = 10;
+                
+                const completed = Math.floor((progress / 100) * totalTasks);
+                badge.textContent = `${completed}/${totalTasks} completadas`;
+            });
+        }
+
+        // Configurar listeners para checkboxes
+        function setupChecklistListeners() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const checklistItem = this.closest('.checklist-item');
+                    if (this.checked) {
+                        checklistItem.classList.add('completed');
+                        // Actualizar estado de la tarea
+                        const taskCard = this.closest('.task-card');
+                        const statusBadge = taskCard.querySelector('.status-badge');
+                        if (statusBadge) {
+                            statusBadge.className = 'status-badge status-completed';
+                            statusBadge.textContent = 'Completado';
+                        }
+                    } else {
+                        checklistItem.classList.remove('completed');
+                        // Revertir estado
+                        const taskCard = this.closest('.task-card');
+                        const statusBadge = taskCard.querySelector('.status-badge');
+                        if (statusBadge) {
+                            statusBadge.className = 'status-badge status-planned';
+                            statusBadge.textContent = 'Planificado';
+                        }
+                    }
+                    updateStats();
+                    saveProgress();
+                });
+            });
+        }
+
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            const progress = {};
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            checkboxes.forEach((checkbox, index) => {
+                progress[`task_${index}`] = checkbox.checked;
+            });
+            
+            // Guardar en localStorage
+            localStorage.setItem('fermentationTrackerProgress', JSON.stringify(progress));
+            localStorage.setItem('fermentationTrackerLastSave', new Date().toISOString());
+            
+            // Actualizar timestamp
+            trackerData.lastUpdate = new Date().toLocaleString('es-ES');
+            updateTimestamps();
+            
+            console.log('Progreso guardado en localStorage');
+        }
+
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('fermentationTrackerProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+                
+                checkboxes.forEach((checkbox, index) => {
+                    if (progress[`task_${index}`]) {
+                        checkbox.checked = true;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                console.log('Progreso cargado desde localStorage');
+            }
+        }
+
+        // Configurar auto-guardado
+        function setupAutoSave() {
+            // Cargar progreso al inicio
+            loadProgress();
+            
+            // Auto-guardar cada 30 segundos
+            setInterval(saveProgress, 30000);
+            
+            // Guardar al cerrar la página
+            window.addEventListener('beforeunload', saveProgress);
+        }
+
+        // Botón: Actualizar Progreso
+        function updateProgress() {
+            updateStats();
+            saveProgress();
+            
+            // Mostrar notificación
+            showNotification('Progreso actualizado correctamente', 'success');
+        }
+
+        // Botón: Exportar a JSON
+        function exportToJSON() {
+            const exportData = {
+                metadata: {
+                    project: "Fermentation Expert App",
+                    version: "Tracker v1.0",
+                    exportDate: new Date().toISOString(),
+                    lastUpdate: trackerData.lastUpdate
+                },
+                progress: trackerData,
+                tasks: {}
+            };
+            
+            // Recopilar estado de todas las tareas
+            const taskCards = document.querySelectorAll('.task-card');
+            taskCards.forEach((card, index) => {
+                const title = card.querySelector('.task-title').textContent;
+                const status = card.querySelector('.status-badge').textContent;
+                const priority = card.classList.contains('priority-high') ? 'alta' : 
+                                card.classList.contains('priority-medium') ? 'media' : 'baja';
+                
+                exportData.tasks[`task_${index}`] = {
+                    title,
+                    status,
+                    priority,
+                    checklist: []
+                };
+                
+                // Agregar items del checklist
+                const checklistItems = card.querySelectorAll('.checklist-item');
+                checklistItems.forEach(item => {
+                    const label = item.querySelector('label').textContent;
+                    const completed = item.querySelector('input').checked;
+                    exportData.tasks[`task_${index}`].checklist.push({
+                        item: label,
+                        completed: completed
+                    });
+                });
+            });
+            
+            // Crear y descargar archivo JSON
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `fermentation_tracker_${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Datos exportados a JSON', 'success');
+        }
+
+        // Botón: Reiniciar Progreso
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todo el progreso? Esta acción no se puede deshacer.')) {
+                localStorage.removeItem('fermentationTrackerProgress');
+                localStorage.removeItem('fermentationTrackerLastSave');
+                
+                // Desmarcar todos los checkboxes
+                const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                    checkbox.dispatchEvent(new Event('change'));
+                });
+                
+                // Reiniciar estados
+                const statusBadges = document.querySelectorAll('.status-badge');
+                statusBadges.forEach(badge => {
+                    if (!badge.closest('.task-card')) return;
+                    badge.className = 'status-badge status-planned';
+                    badge.textContent = 'Planificado';
+                });
+                
+                updateStats();
+                showNotification('Progreso reiniciado correctamente', 'info');
+            }
+        }
+
+        // Mostrar notificación
+        function showNotification(message, type) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--info)'};
+                color: white;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 300px;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Añadir estilos CSS para animaciones de notificación
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializar
+        setTimeout(() => {
+            loadProgress();
+            updateStats();
+        }, 100);
+    </script>
+</body>
+</html>

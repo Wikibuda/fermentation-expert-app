@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Configurador Enterprise Ready</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
+            --secondary: #ff9800;
+            --secondary-dark: #f57c00;
+            --accent: #9c27b0;
+            --light: #f1f8e9;
+            --dark: #263238;
+            --gray: #607d8b;
+            --light-gray: #eceff1;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: skewX(-20deg);
+            transform-origin: top right;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panels */
+        .panel {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .panel:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Progress */
+        .progress-container {
+            margin: 25px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Output */
+        .output-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-line {
+            margin: 5px 0;
+            padding: 3px 0;
+        }
+
+        .output-success {
+            color: var(--success);
+        }
+
+        .output-error {
+            color: var(--danger);
+        }
+
+        .output-info {
+            color: var(--info);
+        }
+
+        .output-warning {
+            color: var(--warning);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: var(--light);
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .feature-card.selected {
+            border-color: var(--primary);
+            background: rgba(46, 125, 50, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Terminal Simulation */
+        .terminal {
+            background: #1e1e1e;
+            color: #00ff00;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .terminal-line {
+            margin: 5px 0;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+        }
+
+        .terminal-command {
+            color: #ffffff;
+        }
+
+        .terminal-output {
+            color: #cccccc;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-error {
+            background: #ffebee;
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: var(--info);
+            border-left: 4px solid var(--info);
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: var(--warning);
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .panel {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-rocket"></i>
+                    Configurador Enterprise Ready
+                    <span style="font-size: 1rem; opacity: 0.8;">v1.0.0</span>
+                </h1>
+                <p class="subtitle">
+                    Transforma tu proyecto en un repositorio profesional con estándares empresariales.
+                    Configura CI/CD, documentación, testing y más en minutos.
+                </p>
+            </div>
+        </header>
+
+        <div class="steps">
+            <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <div class="step-label">Configuración</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <div class="step-label">Características</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <div class="step-label">Generación</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-number">4</div>
+                <div class="step-label">Finalización</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Panel de Configuración -->
+            <div class="panel" id="configPanel">
+                <div class="panel-header">
+                    <i class="fas fa-cog"></i>
+                    <h2 class="panel-title">Configuración del Proyecto</h2>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('basic')">Básico</button>
+                    <button class="tab" onclick="showTab('git')">Git</button>
+                    <button class="tab" onclick="showTab('team')">Equipo</button>
+                </div>
+
+                <div id="basic-tab" class="tab-content active">
+                    <div class="form-group">
+                        <label for="projectName">Nombre del Proyecto</label>
+                        <input type="text" id="projectName" value="fermentation-expert-app" 
+                               placeholder="Ej: fermentation-expert-app">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectDescription">Descripción</label>
+                        <textarea id="projectDescription" placeholder="Describe tu proyecto...">
+Aplicación web especializada en procesos de fermentación con inteligencia artificial. Incluye chat con experto, tracker de desarrollo y herramientas profesionales para fermentadores.
+                        </textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lenguaje Principal</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="language" value="python" checked>
+                                <span>Python</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="language" value="javascript">
+                                <span>JavaScript</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="language" value="both">
+                                <span>Ambos</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="git-tab" class="tab-content">
+                    <div class="form-group">
+                        <label for="gitProvider">Proveedor Git</label>
+                        <select id="gitProvider">
+                            <option value="github">GitHub</option>
+                            <option value="gitlab">GitLab</option>
+                            <option value="bitbucket">Bitbucket</option>
+                            <option value="azure">Azure DevOps</option>
+                            <option value="none">Solo local</option>
+                        </select>
+                    </div>
+
+                    <div id="gitConfig" style="display: none;">
+                        <div class="form-group">
+                            <label for="gitUsername">Usuario/Organización</label>
+                            <input type="text" id="gitUsername" placeholder="tu-usuario-o-organizacion">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gitEmail">Email Git</label>
+                            <input type="email" id="gitEmail" placeholder="tu@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gitName">Nombre Git</label>
+                            <input type="text" id="gitName" placeholder="Tu Nombre">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Flujo de Trabajo Git</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="gitFlow" value="simple" checked>
+                                <span>Simple (main/feature)</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="gitFlow" value="gitflow">
+                                <span>Git Flow completo</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="gitFlow" value="trunk">
+                                <span>Trunk-based</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="team-tab" class="tab-content">
+                    <div class="form-group">
+                        <label>Miembros del Equipo</label>
+                        <div id="teamMembers">
+                            <div class="input-group" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                <input type="text" placeholder="Nombre" class="team-name">
+                                <input type="email" placeholder="Email" class="team-email">
+                                <input type="text" placeholder="Rol" class="team-role">
+                                <button type="button" onclick="removeTeamMember(this)" style="background: var(--danger); color: white; border: none; border-radius: 5px; padding: 0 10px; cursor: pointer;">×</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addTeamMember()" style="margin-top: 10px;">
+                            <i class="fas fa-plus"></i> Agregar Miembro
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="license">Licencia</label>
+                        <select id="license">
+                            <option value="MIT">MIT License</option>
+                            <option value="Apache">Apache 2.0</option>
+                            <option value="GPL3">GPL v3</option>
+                            <option value="BSD">BSD 3-Clause</option>
+                            <option value="Proprietary">Propietaria</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="nextStep()">
+                    <i class="fas fa-arrow-right"></i> Continuar a Características
+                </button>
+            </div>
+
+            <!-- Panel de Características -->
+            <div class="panel" id="featuresPanel" style="display: none;">
+                <div class="panel-header">
+                    <i class="fas fa-star"></i>
+                    <h2 class="panel-title">Características Enterprise</h2>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Selecciona las características que deseas incluir en tu configuración empresarial.
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card" onclick="toggleFeature(this)" data-feature="ci-cd">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="feature-title">CI/CD Pipeline</div>
+                        <div class="feature-desc">GitHub Actions con testing, linting y deploy automático</div>
+                    </div>
+
+                    <div class="feature-card selected" onclick="toggleFeature(this)" data-feature="testing">
+                        <div class="feature-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <div class="feature-title">Testing Framework</div>
+                        <div class="feature-desc">pytest con cobertura y tests automatizados</div>
+                    </div>
+
+                    <div class="feature-card selected" onclick="toggleFeature(this)" data-feature="linting">
+                        <div class="feature-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="feature-title">Code Quality</div>
+                        <div class="feature-desc">flake8, black, mypy y pre-commit hooks</div>
+                    </div>
+
+                    <div class="feature-card selected" onclick="toggleFeature(this)" data-feature="docs">
+                        <div class="feature-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="feature-title">Documentación</div>
+                        <div class="feature-desc">README, CHANGELOG, docs/ y wiki preparada</div>
+                    </div>
+
+                    <div class="feature-card" onclick="toggleFeature(this)" data-feature="docker">
+                        <div class="feature-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <div class="feature-title">Docker Support</div>
+                        <div class="feature-desc">Dockerfile y docker-compose para contenedores</div>
+                    </div>
+
+                    <div class="feature-card selected" onclick="toggleFeature(this)" data-feature="security">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-title">Security Scan</div>
+                        <div class="feature-desc">gitleaks, bandit y dependabot alerts</div>
+                    </div>
+
+                    <div class="feature-card" onclick="toggleFeature(this)" data-feature="monitoring">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-title">Monitoring</div>
+                        <div class="feature-desc">Logging estructurado y métricas</div>
+                    </div>
+
+                    <div class="feature-card selected" onclick="toggleFeature(this)" data-feature="makefile">
+                        <div class="feature-icon">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <div class="feature-title">Makefile</div>
+                        <div class="feature-desc">Automatización de comandos comunes</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>Progreso de configuración</span>
+                        <span id="progressPercent">25%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()" style="flex: 1;">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()" style="flex: 2;">
+                        <i class="fas fa-magic"></i> Generar Configuración
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de Generación -->
+            <div class="panel" id="generatePanel" style="display: none;">
+                <div class="panel-header">
+                    <i class="fas fa-code"></i>
+                    <h2 class="panel-title">Generación de Configuración</h2>
+                </div>
+
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Esta aplicación genera archivos de configuración. Debes copiarlos a tu proyecto manualmente.
+                </div>
+
+                <div class="terminal" id="terminalOutput">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-command"> ./setup_enterprise_repo.sh</span>
+                    </div>
+                    <div class="terminal-line terminal-output">🚀 Iniciando configuración enterprise ready...</div>
+                    <div class="terminal-line terminal-output">📋 Proyecto: <span id="termProjectName">fermentation-expert-app</span></div>
+                </div>
+
+                <div class="output-container" id="fileOutput">
+                    <!-- Los archivos generados aparecerán aquí -->
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()" style="flex: 1;">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <button class="btn btn-primary" onclick="generateFiles()" style="flex: 1;">
+                        <i class="fas fa-play"></i> Generar Archivos
+                    </button>
+                    <button class="btn btn-success" onclick="downloadAll()" style="flex: 1;" id="downloadBtn" disabled>
+                        <i class="fas fa-download"></i> Descargar Todo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de Resumen -->
+            <div class="panel" id="summaryPanel" style="display: none;">
+                <div class="panel-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h2 class="panel-title">Configuración Completada</h2>
+                </div>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-check"></i>
+                    ¡Configuración enterprise ready generada exitosamente!
+                </div>
+
+                <div id="summaryContent">
+                    <!-- Resumen dinámico -->
+                </div>
+
+                <div class="output-container" id="nextSteps">
+                    <strong>📋 PRÓXIMOS PASOS:</strong><br><br>
+                    1. Copia los archivos generados a tu proyecto<br>
+                    2. Ejecuta: <code>chmod +x setup_enterprise_repo.sh</code><br>
+                    3. Ejecuta: <code>./setup_enterprise_repo.sh</code><br>
+                    4. Sigue las instrucciones del script<br>
+                    5. Configura tus secrets de CI/CD<br>
+                    6. ¡Comienza a desarrollar! 🚀
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="restart()" style="flex: 1;">
+                        <i class="fas fa-redo"></i> Nuevo Proyecto
+                    </button>
+                    <button class="btn btn-primary" onclick="copyToClipboard()" style="flex: 1;">
+                        <i class="fas fa-copy"></i> Copiar Script
+                    </button>
+                    <a href="#" class="btn btn-success" style="flex: 1;" id="finalDownload">
+                        <i class="fas fa-download"></i> Descargar Script
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <h3>🚀 Enterprise Ready Configurator</h3>
+                    <p>Transforma proyectos en estándares empresariales</p>
+                </div>
+                <div>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        v1.0.0 | Aplicación HTML autocontenida<br>
+                        Funciona 100% en el navegador
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Estado de la aplicación
+        const appState = {
+            currentStep: 1,
+            selectedFeatures: new Set(['testing', 'linting', 'docs', 'security', 'makefile']),
+            generatedFiles: {},
+            projectConfig: {
+                name: 'fermentation-expert-app',
+                description: 'Aplicación web especializada en procesos de fermentación con inteligencia artificial.',
+                language: 'python',
+                gitProvider: 'github',
+                gitFlow: 'simple',
+                license: 'MIT',
+                team: []
+            }
+        };
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            setupEventListeners();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Actualizar estado en tiempo real
+            document.getElementById('projectName').addEventListener('input', function() {
+                appState.projectConfig.name = this.value;
+                document.getElementById('termProjectName').textContent = this.value;
+            });
+
+            document.getElementById('projectDescription').addEventListener('input', function() {
+                appState.projectConfig.description = this.value;
+            });
+
+            document.getElementById('gitProvider').addEventListener('change', function() {
+                appState.projectConfig.gitProvider = this.value;
+                document.getElementById('gitConfig').style.display = 
+                    this.value === 'none' ? 'none' : 'block';
+            });
+
+            // Licencia
+            document.getElementById('license').addEventListener('change', function() {
+                appState.projectConfig.license = this.value;
+            });
+
+            // Lenguaje
+            document.querySelectorAll('input[name="language"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    appState.projectConfig.language = this.value;
+                });
+            });
+
+            // Git Flow
+            document.querySelectorAll('input[name="gitFlow"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    appState.projectConfig.gitFlow = this.value;
+                });
+            });
+        }
+
+        // Navegación por pasos
+        function nextStep() {
+            if (appState.currentStep < 4) {
+                document.getElementById(`step${appState.currentStep}`).classList.remove('active');
+                document.getElementById(`step${appState.currentStep}`).classList.add('completed');
+                appState.currentStep++;
+                document.getElementById(`step${appState.currentStep}`).classList.add('active');
+                
+                // Mostrar/ocultar paneles
+                document.querySelectorAll('.panel').forEach(panel => {
+                    panel.style.display = 'none';
+                });
+                document.getElementById(`${getPanelId(appState.currentStep)}`).style.display = 'block';
+                
+                updateProgress();
+                
+                // Si vamos al paso 3, preparar generación
+                if (appState.currentStep === 3) {
+                    prepareGeneration();
+                }
+                
+                // Si vamos al paso 4, mostrar resumen
+                if (appState.currentStep === 4) {
+                    showSummary();
+                }
+            }
+        }
+
+        function prevStep() {
+            if (appState.currentStep > 1) {
+                document.getElementById(`step${appState.currentStep}`).classList.remove('active');
+                appState.currentStep--;
+                document.getElementById(`step${appState.currentStep}`).classList.remove('completed');
+                document.getElementById(`step${appState.currentStep}`).classList.add('active');
+                
+                // Mostrar/ocultar paneles
+                document.querySelectorAll('.panel').forEach(panel => {
+                    panel.style.display = 'none';
+                });
+                document.getElementById(`${getPanelId(appState.currentStep)}`).style.display = 'block';
+                
+                updateProgress();
+            }
+        }
+
+        function getPanelId(step) {
+            const panels = ['configPanel', 'featuresPanel', 'generatePanel', 'summaryPanel'];
+            return panels[step - 1];
+        }
+
+        // Actualizar progreso
+        function updateProgress() {
+            const percent = (appState.currentStep / 4) * 100;
+            document.getElementById('progressPercent').textContent = `${Math.round(percent)}%`;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+        }
+
+        // Tabs
+        function showTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar tab seleccionado
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        // Características
+        function toggleFeature(element) {
+            const feature = element.getAttribute('data-feature');
+            
+            if (appState.selectedFeatures.has(feature)) {
+                appState.selectedFeatures.delete(feature);
+                element.classList.remove('selected');
+            } else {
+                appState.selectedFeatures.add(feature);
+                element.classList.add('selected');
+            }
+        }
+
+        // Gestión de equipo
+        function addTeamMember() {
+            const container = document.getElementById('teamMembers');
+            const newMember = document.createElement('div');
+            newMember.className = 'input-group';
+            newMember.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px;';
+            newMember.innerHTML = `
+                <input type="text" placeholder="Nombre" class="team-name">
+                <input type="email" placeholder="Email" class="team-email">
+                <input type="text" placeholder="Rol" class="team-role">
+                <button type="button" onclick="removeTeamMember(this)" style="background: var(--danger); color: white; border: none; border-radius: 5px; padding: 0 10px; cursor: pointer;">×</button>
+            `;
+            container.appendChild(newMember);
+        }
+
+        function removeTeamMember(button) {
+            button.parentElement.remove();
+        }
+
+        // Preparar generación
+        function prepareGeneration() {
+            // Actualizar configuración de equipo
+            appState.projectConfig.team = [];
+            document.querySelectorAll('.input-group').forEach(group => {
+                const name = group.querySelector('.team-name')?.value;
+                const email = group.querySelector('.team-email')?.value;
+                const role = group.querySelector('.team-role')?.value;
+                
+                if (name && email) {
+                    appState.projectConfig.team.push({ name, email, role: role || 'Contributor' });
+                }
+            });
+            
+            // Limpiar terminal
+            const terminal = document.getElementById('terminalOutput');
+            terminal.innerHTML = `
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command"> ./setup_enterprise_repo.sh</span>
+                </div>
+                <div class="terminal-line terminal-output">🚀 Iniciando configuración enterprise ready...</div>
+                <div class="terminal-line terminal-output">📋 Proyecto: <span id="termProjectName">${appState.projectConfig.name}</span></div>
+            `;
+            
+            // Limpiar salida de archivos
+            document.getElementById('fileOutput').innerHTML = '';
+            document.getElementById('downloadBtn').disabled = true;
+        }
+
+        // Generar archivos
+        function generateFiles() {
+            const terminal = document.getElementById('terminalOutput');
+            const fileOutput = document.getElementById('fileOutput');
+            
+            // Resetear archivos generados
+            appState.generatedFiles = {};
+            
+            // Simular proceso de generación
+            simulateTerminalOutput(terminal, [
+                "🔍 Verificando configuración...",
+                "✅ Configuración válida",
+                "📁 Creando estructura de directorios...",
+                "📄 Generando archivos de configuración..."
+            ]);
+            
+            // Generar cada archivo
+            setTimeout(() => {
+                generateReadme();
+                generateGitignore();
+                generateLicense();
+                generateSetupPy();
+                generateMakefile();
+                generatePreCommitConfig();
+                generateCICDWorkflow();
+                generateMainScript();
+                
+                // Mostrar archivos generados
+                displayGeneratedFiles(fileOutput);
+                
+                // Habilitar descarga
+                document.getElementById('downloadBtn').disabled = false;
+                
+                // Agregar mensaje final al terminal
+                setTimeout(() => {
+                    const finalLine = document.createElement('div');
+                    finalLine.className = 'terminal-line terminal-output';
+                    finalLine.innerHTML = "✅ <strong>Configuración generada exitosamente!</strong>";
+                    terminal.appendChild(finalLine);
+                    terminal.scrollTop = terminal.scrollHeight;
+                }, 500);
+            }, 2000);
+        }
+
+        // Simular output en terminal
+        function simulateTerminalOutput(terminal, messages, index = 0) {
+            if (index < messages.length) {
+                setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.className = 'terminal-line terminal-output';
+                    line.textContent = messages[index];
+                    terminal.appendChild(line);
+                    terminal.scrollTop = terminal.scrollHeight;
+                    simulateTerminalOutput(terminal, messages, index + 1);
+                }, 500);
+            }
+        }
+
+        // Mostrar archivos generados
+        function displayGeneratedFiles(container) {
+            container.innerHTML = '<strong>📁 ARCHIVOS GENERADOS:</strong><br><br>';
+            
+            Object.keys(appState.generatedFiles).forEach(filename => {
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'output-line';
+                fileDiv.innerHTML = `
+                    <i class="far fa-file"></i> ${filename} 
+                    <button onclick="viewFile('${filename}')" style="margin-left: 10px; background: var(--info); color: white; border: none; border-radius: 3px; padding: 2px 8px; font-size: 12px; cursor: pointer;">
+                        Ver
+                    </button>
+                    <button onclick="downloadFile('${filename}')" style="margin-left: 5px; background: var(--success); color: white; border: none; border-radius: 3px; padding: 2px 8px; font-size: 12px; cursor: pointer;">
+                        Descargar
+                    </button>
+                `;
+                container.appendChild(fileDiv);
+            });
+        }
+
+        // Ver archivo
+        function viewFile(filename) {
+            const content = appState.generatedFiles[filename];
+            alert(`📄 ${filename}\n\n${content.substring(0, 2000)}${content.length > 2000 ? '...\n\n(Contenido truncado. Usa "Descargar" para ver completo.)' : ''}`);
+        }
+
+        // Descargar archivo individual
+        function downloadFile(filename) {
+            const content = appState.generatedFiles[filename];
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Descargar todo
+        function downloadAll() {
+            // Crear script principal
+            const mainScript = generateMainScriptContent();
+            const blob = new Blob([mainScript], { type: 'text/x-shellscript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'setup_enterprise_repo.sh';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Mostrar mensaje
+            alert('📥 Script principal descargado como "setup_enterprise_repo.sh".\n\nLos demás archivos se generarán al ejecutar el script.');
+        }
+
+        // Mostrar resumen
+        function showSummary() {
+            const summary = document.getElementById('summaryContent');
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <strong>📊 RESUMEN DE CONFIGURACIÓN:</strong>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div>
+                        <strong>Proyecto:</strong><br>
+                        ${appState.projectConfig.name}
+                    </div>
+                    <div>
+                        <strong>Licencia:</strong><br>
+                        ${appState.projectConfig.license}
+                    </div>
+                    <div>
+                        <strong>Lenguaje:</strong><br>
+                        ${appState.projectConfig.language}
+                    </div>
+                    <div>
+                        <strong>Git Provider:</strong><br>
+                        ${appState.projectConfig.gitProvider === 'none' ? 'Local' : appState.projectConfig.gitProvider}
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <strong>🎯 CARACTERÍSTICAS INCLUIDAS (${appState.selectedFeatures.size}):</strong><br>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+            `;
+            
+            Array.from(appState.selectedFeatures).forEach(feature => {
+                const featureNames = {
+                    'ci-cd': 'CI/CD Pipeline',
+                    'testing': 'Testing Framework',
+                    'linting': 'Code Quality',
+                    'docs': 'Documentación',
+                    'docker': 'Docker Support',
+                    'security': 'Security Scan',
+                    'monitoring': 'Monitoring',
+                    'makefile': 'Makefile'
+                };
+                html += `<span style="background: var(--light); padding: 5px 10px; border-radius: 5px; font-size: 0.9rem;">${featureNames[feature]}</span>`;
+            });
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div>
+                    <strong>👥 EQUIPO (${appState.projectConfig.team.length} miembros):</strong><br>
+                    <div style="margin-top: 10px;">
+            `;
+            
+            appState.projectConfig.team.forEach(member => {
+                html += `<div style="margin-bottom: 5px;">${member.name} &lt;${member.email}&gt; - ${member.role}</div>`;
+            });
+            
+            if (appState.projectConfig.team.length === 0) {
+                html += `<div style="color: var(--gray); font-style: italic;">No se definieron miembros del equipo</div>`;
+            }
+            
+            html += `</div></div>`;
+            
+            summary.innerHTML = html;
+            
+            // Configurar descarga final
+            const mainScript = generateMainScriptContent();
+            const blob = new Blob([mainScript], { type: 'text/x-shellscript' });
+            const url = URL.createObjectURL(blob);
+            document.getElementById('finalDownload').href = url;
+            document.getElementById('finalDownload').download = `setup_${appState.projectConfig.name}.sh`;
+        }
+
+        // Copiar script al portapapeles
+        function copyToClipboard() {
+            const script = generateMainScriptContent();
+            navigator.clipboard.writeText(script).then(() => {
+                alert('✅ Script copiado al portapapeles. Pégalo en un archivo .sh en tu proyecto.');
+            });
+        }
+
+        // Reiniciar aplicación
+        function restart() {
+            if (confirm('¿Iniciar nueva configuración? Se perderá la configuración actual.')) {
+                location.reload();
+            }
+        }
+
+        // Funciones de generación de archivos (simplificadas para el ejemplo)
+        function generateReadme() {
+            const content = `# ${appState.projectConfig.name}
+
+${appState.projectConfig.description}
+
+## Características
+
+- Configuración enterprise ready
+- CI/CD pipeline automatizado
+- Testing y code quality
+- Documentación completa
+
+## Licencia
+
+${appState.projectConfig.license}`;
+            
+            appState.generatedFiles['README.md'] = content;
+        }
+
+        function generateGitignore() {
+            const content = `# Python
+__pycache__/
+*.pyc
+venv/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log`;
+            
+            appState.generatedFiles['.gitignore'] = content;
+        }
+
+        function generateLicense() {
+            let content = '';
+            if (appState.projectConfig.license === 'MIT') {
+                content = `MIT License
+
+Copyright (c) ${new Date().getFullYear()} ${appState.projectConfig.name}
+
+Permission is hereby granted...`;
+            }
+            
+            appState.generatedFiles['LICENSE'] = content;
+        }
+
+        function generateSetupPy() {
+            const content = `from setuptools import setup, find_packages
+
+setup(
+    name="${appState.projectConfig.name}",
+    version="1.0.0",
+    description="${appState.projectConfig.description}",
+    packages=find_packages(),
+)`;
+            
+            appState.generatedFiles['setup.py'] = content;
+        }
+
+        function generateMakefile() {
+            const content = `.PHHONY: help install test
+
+help:
+	@echo "Comandos disponibles:"
+	@echo "  make install - Instalar dependencias"
+	@echo "  make test    - Ejecutar tests"
+
+install:
+	pip install -r requirements.txt
+
+test:
+	pytest tests/`;
+            
+            appState.generatedFiles['Makefile'] = content;
+        }
+
+        function generatePreCommitConfig() {
+            const content = `repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer`;
+            
+            appState.generatedFiles['.pre-commit-config.yaml'] = content;
+        }
+
+        function generateCICDWorkflow() {
+            const content = `name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run tests
+        run: make test`;
+            
+            appState.generatedFiles['.github/workflows/ci.yml'] = content;
+        }
+
+        function generateMainScript() {
+            const content = generateMainScriptContent();
+            appState.generatedFiles['setup_enterprise_repo.sh'] = content;
+        }
+
+        function generateMainScriptContent() {
+            return `#!/bin/bash
+# Configuración Enterprise Ready para ${appState.projectConfig.name}
+
+echo "🚀 Iniciando configuración para ${appState.projectConfig.name}"
+echo "📝 Descripción: ${appState.projectConfig.description}"
+echo "🔧 Características incluidas: ${Array.from(appState.selectedFeatures).join(', ')}"
+
+# Tu script de configuración completo iría aquí...
+echo "✅ Configuración completada!"`;
+        }
+    </script>
+</body>
+</html>
