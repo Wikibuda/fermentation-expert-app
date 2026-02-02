@@ -163,3 +163,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 # Test CI/CD
+
+## 🔐 Configuración de API Key
+
+**IMPORTANTE:** Cada usuario necesita su propia API Key de DeepSeek.
+
+### Cómo obtener una API Key:
+1. Regístrate en [DeepSeek Platform](https://platform.deepseek.com)
+2. Ve a "API Keys" en tu dashboard
+3. Crea una nueva clave
+4. Copia la clave
+
+### Cómo configurar en la aplicación:
+1. Abre la aplicación web
+2. En el panel izquierdo, pega tu API Key
+3. Haz clic en "Guardar API Key"
+4. Haz clic en "Probar Conexión"
+
+### Limitaciones:
+- Free tier: 100 requests/hora
+- Tu clave se guarda solo en TU navegador
+- No se comparte con otros usuarios
