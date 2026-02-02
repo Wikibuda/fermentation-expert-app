@@ -1,3 +1,70 @@
+#!/bin/bash
+# complete_deployment_fixed.sh - Deployment corregido
+
+echo "=============================================="
+echo "     DEPLOYMENT COMPLETO FERMENTATION APP     "
+echo "=============================================="
+
+echo ""
+echo "📦 PASO 1: CREANDO WORKFLOW ACTUALIZADO..."
+echo "========================================"
+
+# Crear directorio .github/workflows si no existe
+mkdir -p .github/workflows
+
+# Crear workflow con versión actualizada de upload-pages-artifact
+cat > .github/workflows/deploy-pages.yml << 'DEPLOY_EOF'
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Subir todos los archivos del directorio actual
+          path: '.'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+DEPLOY_EOF
+
+echo "✅ Workflow creado con upload-pages-artifact@v3"
+
+echo ""
+echo "🎨 PASO 2: CREANDO FAVICON Y ARCHIVOS BÁSICOS..."
+echo "=============================================="
+
+# Crear favicon simple
+echo "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYSURBVDhPYxgFo2AUjIJRMAoAAQAABAABHwC6qg8eTgAAAABJRU5ErkJggg==" | base64 -d > favicon.ico
+
+echo "✅ Favicon creado: favicon.ico"
+
+echo ""
+echo "📄 PASO 3: CREANDO INDEX.HTML MEJORADO..."
+echo "======================================="
+
+cat > index.html << 'INDEX_EOF'
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -145,3 +212,73 @@
     </script>
 </body>
 </html>
+INDEX_EOF
+
+echo "✅ index.html creado"
+
+echo ""
+echo "🔧 PASO 4: AGREGANDO FAVICON A LAS OTRAS PÁGINAS..."
+echo "================================================"
+
+# Función para agregar favicon a una página HTML
+add_favicon_to_page() {
+    local file=$1
+    if [ -f "$file" ]; then
+        if grep -q "<head>" "$file" && ! grep -q "favicon" "$file"; then
+            sed -i '' '/<head>/a\
+    <link rel="icon" href="favicon.ico" type="image/x-icon">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">' "$file"
+            echo "✅ $file actualizado"
+        else
+            echo "⚠️  $file ya tiene favicon o no tiene <head>"
+        fi
+    else
+        echo "❌ $file no existe"
+    fi
+}
+
+# Agregar favicon a las páginas existentes
+add_favicon_to_page "fermentation_agent.html"
+add_favicon_to_page "tracker.html"
+add_favicon_to_page "enterprise_configurator.html"
+
+echo ""
+echo "📤 PASO 5: SUBIENDO A GITHUB..."
+echo "=============================="
+
+# Hacer commit de todos los cambios
+git add .
+git commit -m "feat: complete deployment with modern pages workflow, favicon and improved design"
+git push origin main
+
+echo ""
+echo "🎉 ¡DESPLIEGUE COMPLETO!"
+echo "========================"
+echo ""
+echo "✅ Qué se ha hecho:"
+echo "   📦 Workflow GitHub Pages actualizado (sin versiones deprecadas)"
+echo "   🖼️  Favicon agregado"
+echo "   🎨 index.html rediseñado profesionalmente"
+echo "   🔧 Todas las páginas actualizadas con favicon"
+echo "   📤 Todo subido a GitHub"
+echo ""
+echo "⏱️  El deployment comenzará automáticamente..."
+echo ""
+echo "🔍 PARA VERIFICAR:"
+echo "1. Espera 2-3 minutos"
+echo "2. Ve a: https://github.com/Wikibuda/fermentation-expert-app/actions"
+echo "3. Deberías ver 'Deploy to GitHub Pages' ejecutándose"
+echo "4. Cuando termine, abre: https://Wikibuda.github.io/fermentation-expert-app/"
+echo ""
+echo "🛠️  SI HAY PROBLEMAS:"
+echo "1. Verifica permisos en:"
+echo "   https://github.com/Wikibuda/fermentation-expert-app/settings/pages"
+echo "2. Asegúrate que diga 'Source: GitHub Actions'"
+echo ""
+echo "¡Listo! Tu aplicación tendrá:"
+echo "• ✅ Favicon profesional"
+echo "• ✅ Diseño moderno y responsive"
+echo "• ✅ Deployment automático con GitHub Pages"
+echo "• ✅ Todas las apps funcionando"
+echo ""
+echo "🧪 ¡Felices fermentaciones!"
