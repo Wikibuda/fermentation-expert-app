@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square70x70logo src="/fermentation-expert-app/pwa/icon-72x72.png"/>
+            <square150x150logo src="/fermentation-expert-app/pwa/icon-144x144.png"/>
+            <square310x310logo src="/fermentation-expert-app/pwa/icon-310x310.png"/>
+            <TileColor>#2e7d32</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>

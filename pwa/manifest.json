@@ -1,0 +1,127 @@
+{
+  "name": "Fermentation Expert",
+  "short_name": "FermentApp",
+  "description": "Aplicación especializada en procesos de fermentación con asistencia de IA",
+  "lang": "es",
+  "dir": "ltr",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/fermentation-expert-app/",
+  "start_url": "/fermentation-expert-app/?source=pwa",
+  "id": "/fermentation-expert-app/",
+  "theme_color": "#2e7d32",
+  "background_color": "#ffffff",
+  "categories": ["education", "food", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "/fermentation-expert-app/pwa/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/fermentation-expert-app/pwa/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Fermentation Expert en desktop"
+    },
+    {
+      "src": "/fermentation-expert-app/pwa/screenshot-mobile.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Fermentation Expert en móvil"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Chat con Experto",
+      "short_name": "Chat",
+      "description": "Habla con el especialista en fermentación",
+      "url": "/fermentation-expert-app/fermentation_agent.html",
+      "icons": [
+        {
+          "src": "/fermentation-expert-app/pwa/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Tracker de Desarrollo",
+      "short_name": "Tracker",
+      "description": "Sigue el progreso del proyecto",
+      "url": "/fermentation-expert-app/tracker.html",
+      "icons": [
+        {
+          "src": "/fermentation-expert-app/pwa/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Nueva Consulta",
+      "short_name": "Nueva",
+      "description": "Comenzar nueva consulta de fermentación",
+      "url": "/fermentation-expert-app/fermentation_agent.html?new=true",
+      "icons": [
+        {
+          "src": "/fermentation-expert-app/pwa/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+fermentation",
+      "url": "/fermentation-expert-app/?protocol=%s"
+    }
+  ]
+}

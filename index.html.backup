@@ -1,28 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- PWA Configuration -->
-    <link rel="manifest" href="/fermentation-expert-app/site.webmanifest">
-    <link rel="manifest" href="/fermentation-expert-app/pwa/manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Fermentation Expert">
-    <link rel="apple-touch-icon" href="/fermentation-expert-app/apple-touch-icon.png">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#2e7d32">
-    <meta name="application-name" content="Fermentation Expert">
-    <meta name="msapplication-TileColor" content="#2e7d32">
-    <meta name="msapplication-config" content="/fermentation-expert-app/browserconfig.xml">
-    
-    <!-- PWA Install Prompt -->
-    <script>
-      let deferredPrompt;
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log("PWA installation available");
-      });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧫 Fermentation Expert App</title>
@@ -165,7 +143,5 @@
             }
         });
     </script>
-    <!-- Service Worker Registration -->
-    <script src="/fermentation-expert-app/pwa/register-sw.js"></script>
 </body>
 </html>

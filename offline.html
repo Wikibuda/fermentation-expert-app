@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modo Offline - Fermentation Expert</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .feature {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🧫</div>
+        <h1>Modo Offline</h1>
+        <p>Estás utilizando Fermentation Expert sin conexión a internet.</p>
+        
+        <div class="feature">
+            <h3>✅ Funciones disponibles:</h3>
+            <p>• Chat guardado localmente<br>
+               • Recetas de fermentación<br>
+               • Calculadoras básicas<br>
+               • Historial de consultas</p>
+        </div>
+        
+        <div class="feature">
+            <h3>📱 ¿Cómo instalar?</h3>
+            <p>Para mejor experiencia, instala la app:<br>
+               Chrome/Edge: Menú → "Instalar app"<br>
+               Safari: Compartir → "Añadir a inicio"</p>
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.8;">
+            La conexión se restaurará automáticamente cuando vuelvas a tener internet.
+        </p>
+    </div>
+    
+    <script>
+        // Verificar cuando vuelve la conexión
+        window.addEventListener('online', () => {
+            window.location.href = '/fermentation-expert-app/';
+        });
+        
+        // Intentar recargar cada 30 segundos
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
