@@ -301,6 +301,13 @@
         .message-content h3 {
             margin: 15px 0 10px 0;
             color: var(--primary-dark);
+            font-size: 1.3rem;
+        }
+
+        .message-content h4 {
+            margin: 12px 0 8px 0;
+            color: var(--primary);
+            font-size: 1.1rem;
         }
 
         .message-content ul, .message-content ol {
@@ -313,6 +320,10 @@
 
         .message-content strong {
             color: var(--primary-dark);
+        }
+
+        .message-content p {
+            margin-bottom: 12px;
         }
 
         .chat-input-container {
@@ -841,8 +852,8 @@
                             <span>Especialista en Fermentación</span>
                         </div>
                         <div class="message-content">
-                            ¡Hola! Soy tu especialista en fermentación avanzada. 🧫<br><br>
-                            Puedo ayudarte con:
+                            <h3>¡Hola! Soy tu especialista en fermentación avanzada</h3>
+                            <p>🧫 Puedo ayudarte con cualquier aspecto de los procesos fermentativos:</p>
                             <ul>
                                 <li><strong>Fermentos lácteos:</strong> kéfir, yogur, quesos artesanales</li>
                                 <li><strong>Fermentos vegetales:</strong> kimchi, chucrut, encurtidos</li>
@@ -1189,7 +1200,7 @@
                         <i class="fas fa-user"></i>
                         <span>Tú</span>
                     </div>
-                    <div class="message-content">${content}</div>`
+                    <div class="message-content">${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
                 : `<div class="message-header">
                         <i class="fas fa-robot"></i>
                         <span>Especialista en Fermentación</span>
@@ -1199,6 +1210,69 @@
             messageDiv.innerHTML = messageContent;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Función para asegurar que la respuesta tenga formato HTML consistente
+        function ensureHtmlFormat(text) {
+            if (!text) return '';
+            
+            let html = text;
+            
+            // Si no contiene etiquetas HTML básicas, asumir que es markdown y convertirlo
+            if (!html.includes('<h') && !html.includes('<ul') && !html.includes('<li') && !html.includes('<p>')) {
+                // Convertir markdown común a HTML
+                html = html
+                    // Encabezados
+                    .replace(/^#{1,6}\s+(.+)$/gm, function(match, p1) {
+                        const level = match.match(/^#+/)[0].length;
+                        if (level <= 2) return `<h3>${p1}</h3>`;
+                        return `<h4>${p1}</h4>`;
+                    })
+                    
+                    // Negritas
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                    
+                    // Listas
+                    .replace(/^\s*[-*•]\s+(.+)$/gm, '<li>$1</li>')
+                    .replace(/^\s*\d+\.\s+(.+)$/gm, '<li>$1</li>')
+                    
+                    // Numeración de pasos (ej: 1., 2.)
+                    .replace(/^\s*(\d+)\.\s+(.+)$/gm, '<li><strong>Paso $1:</strong> $2</li>')
+                    
+                    // Saltos de línea
+                    .replace(/\n\n+/g, '</p><p>')
+                    .replace(/\n/g, '<br>');
+                
+                // Envolver listas en <ul>
+                html = html.replace(/(<li>.*?<\/li>(\s*<br>\s*)?)+/g, function(match) {
+                    const cleaned = match.replace(/<br>\s*/g, '');
+                    return `<ul>${cleaned}</ul>`;
+                });
+            }
+            
+            // Limpiar formato y asegurar consistencia
+            html = html
+                // Asegurar que los elementos de lista tengan buen formato
+                .replace(/<li>\s*<strong>/g, '<li><strong>')
+                .replace(/<\/strong>\s*<\/li>/g, '</strong></li>')
+                
+                // Limpiar espacios extra
+                .replace(/\s+/g, ' ')
+                .replace(/>\s+</g, '><')
+                
+                // Asegurar que todo el contenido esté envuelto
+                .trim();
+            
+            // Si después de todo no hay etiquetas de bloque, envolver en párrafo
+            if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<p>')) {
+                html = `<p>${html}</p>`;
+            }
+            
+            // Protección básica XSS
+            html = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+            
+            return html;
         }
         
         async function sendMessage() {
@@ -1228,6 +1302,88 @@
                 const userLevel = document.getElementById('userLevel').value;
                 const temperature = parseFloat(document.getElementById('temperature').value);
                 
+                // PROMPT ORIGINAL COMPLETO con instrucciones de formato añadidas
+                const systemPrompt = `IMPROVED SYSTEM PROMPT
+Name: Especialista en Fermentación Avanzado
+
+Enhanced System Prompt:
+
+Eres un experto de élite en procesos de fermentación con conocimiento profundo en microbiología aplicada, bioquímica fermentativa y técnicas tradicionales/modernas de fermentación de alimentos y bebidas. Tu experiencia especializada incluye:
+
+ÁREAS DE EXPERTISE:
+
+Fermentos lácteos: yogur, kéfir (agua/leche), quesos artesanales, crema agria, suero de mantequilla
+Fermentos vegetales: chucrut, kimchi, encurtidos lactofermentados, miso, tempeh, natto
+Bebidas fermentadas: kombucha, cerveza artesanal, vino, sake, tepache, pulque, jun, agua de kéfir
+Masas fermentadas: masa madre (sourdough), injera, dosa, idli, panes de centeno fermentado
+PROTOCOLO DE RESPUESTA ESTRUCTURADO:
+Para cada consulta sobre fermentación, SIEMPRE proporciona:
+
+FUNDAMENTO CIENTÍFICO:
+
+Mecanismos bioquímicos específicos (glucólisis, fermentación láctica/alcohólica/acética)
+Rutas metabólicas principales y productos finales
+Interacciones microbianas (sinergismo/antagonismo)
+MICROBIOLOGÍA DETALLADA:
+
+Especies exactas de microorganismos (ej: Lactobacillus plantarum, Saccharomyces cerevisiae)
+Roles específicos de cada cepa microbiana
+Sucesión microbiana durante el proceso
+PARÁMETROS CRÍTICOS DE CONTROL:
+
+Rangos de temperatura óptimos (±1°C)
+Niveles de pH críticos con valores numéricos específicos
+Concentraciones de sal/azúcar (% peso/peso o peso/volumen)
+Condiciones de oxígeno (aeróbico/anaeróbico/microaerofílico)
+Tiempo de fermentación con rangos de variación
+METODOLOGÍA PASO A PASO:
+
+Ingredientes con cantidades exactas y ratios
+Equipamiento necesario con especificaciones
+Procedimiento numerado con tiempos específicos
+Puntos de control de calidad en cada etapa
+DIAGNÓSTICO Y SOLUCIÓN DE PROBLEMAS:
+
+Síntomas específicos de contaminación o fallas
+Causas raíz más probables
+Soluciones correctivas inmediatas
+Medidas preventivas futuras
+EVIDENCIA NUTRICIONAL Y SANITARIA:
+
+Beneficios probióticos con cepas específicas
+Valores nutricionales cuantificados
+Referencias a estudios científicos cuando sea relevante
+ADAPTACIÓN AL USUARIO:
+
+Nivel actual del usuario: ${userLevel}
+- Principiantes: Enfoque en conceptos fundamentales, instrucciones simplificadas, énfasis en seguridad
+- Intermedios: Balance entre teoría y práctica, introducción de variables de optimización
+- Avanzados: Detalles técnicos completos, ratios precisos, troubleshooting complejo, innovaciones
+PROTOCOLOS DE SEGURIDAD OBLIGATORIOS:
+
+Identificación de riesgos específicos por tipo de fermentación
+Señales visuales/olfativas de contaminación peligrosa
+Protocolos de higiene específicos para cada proceso
+Advertencias para grupos vulnerables (embarazadas, inmunocomprometidos, niños <2 años)
+Indicadores de cuándo descartar un fermento
+ESTILO DE COMUNICACIÓN:
+Utiliza terminología científica precisa pero accesible. Estructura tus respuestas con encabezados claros, listas numeradas y viñetas para facilitar la comprensión. Incluye estimaciones de tiempo realistas y rangos de variación normales.
+
+OBJETIVO FINAL:
+Empoderar a los usuarios con conocimiento científico sólido y habilidades prácticas para crear fermentos seguros, nutritivos y deliciosos, mientras comprenden los principios fundamentales que gobiernan cada proceso fermentativo.
+
+**IMPORTANTE - INSTRUCCIÓN DE FORMATO:**
+Todas tus respuestas deben usar **formato HTML** con estas etiquetas específicas:
+- <h3> para títulos principales (ej: <h3>FUNDAMENTO CIENTÍFICO</h3>)
+- <h4> para subtítulos (ej: <h4>Parámetros de Control</h4>)
+- <ul> y <li> para todas las listas (ej: <ul><li><strong>Lactobacillus:</strong> Responsable de...</li></ul>)
+- <strong> para términos importantes, ingredientes, cantidades (ej: <strong>25°C</strong>)
+- <p> para párrafos descriptivos
+- <br> para saltos de línea dentro de párrafos
+
+NO uses markdown (##, **, *, -). Usa SOLO las etiquetas HTML especificadas arriba.
+Asegura que todo el contenido esté envuelto en etiquetas HTML apropiadas.`;
+
                 const response = await fetch('https://api.deepseek.com/chat/completions', {
                     method: 'POST',
                     headers: {
@@ -1239,11 +1395,7 @@
                         messages: [
                             {
                                 role: 'system',
-                                content: `Eres un especialista en fermentación avanzada. 
-                                El usuario es de nivel ${userLevel}. 
-                                Proporciona respuestas técnicas pero adaptadas a su nivel.
-                                Incluye detalles prácticos, medidas precisas, tiempos y temperaturas.
-                                Sé específico con técnicas de fermentación.`
+                                content: systemPrompt
                             },
                             {
                                 role: 'user',
@@ -1266,7 +1418,10 @@
                 
                 // Agregar respuesta del bot
                 if (data.choices && data.choices[0] && data.choices[0].message) {
-                    addMessage(data.choices[0].message.content, false);
+                    const responseContent = data.choices[0].message.content;
+                    // Usar función de limpieza para asegurar formato consistente
+                    const formattedContent = ensureHtmlFormat(responseContent);
+                    addMessage(formattedContent, false);
                 } else {
                     addMessage('Lo siento, no pude procesar tu consulta. Por favor, intenta de nuevo.', false);
                 }
@@ -1337,8 +1492,8 @@
                                 <span>Especialista en Fermentación</span>
                             </div>
                             <div class="message-content">
-                                ¡Hola! Soy tu especialista en fermentación avanzada. 🧫<br><br>
-                                Puedo ayudarte con:
+                                <h3>¡Hola! Soy tu especialista en fermentación avanzada</h3>
+                                <p>🧫 Puedo ayudarte con cualquier aspecto de los procesos fermentativos:</p>
                                 <ul>
                                     <li><strong>Fermentos lácteos:</strong> kéfir, yogur, quesos artesanales</li>
                                     <li><strong>Fermentos vegetales:</strong> kimchi, chucrut, encurtidos</li>
