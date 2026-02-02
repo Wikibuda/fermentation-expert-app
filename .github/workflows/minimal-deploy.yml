@@ -1,0 +1,23 @@
+name: Minimal GitHub Pages Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # Método MÍNIMO - solo sube archivos
+      - name: Deploy
+        run: |
+          echo "🧫 Fermentation Expert App" > index.html
+          echo "<p>App en: <a href='fermentation_agent.html'>fermentation_agent.html</a></p>" >> index.html
+          echo "<!-- Deployed: $(date) -->" >> index.html
+          
+          # Listar archivos para debug
+          echo "📁 Archivos disponibles:"
+          find . -name "*.html" | head -10

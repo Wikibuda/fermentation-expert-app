@@ -1,3 +1,181 @@
+#!/bin/bash
+# add_favicon_and_enhance.sh
+
+echo "🎨 AGREGANDO FAVICON Y MEJORANDO APARIENCIA"
+echo "=========================================="
+
+echo ""
+echo "1. 🖼️ CREANDO FAVICON..."
+# Crear favicon simple con ImageMagick
+if command -v convert &> /dev/null; then
+    # Crear varios tamaños de favicon
+    convert -size 64x64 xc:#2e7d32 -fill white -pointsize 40 -gravity center -draw "text 0,0 '🧫'" favicon-64.png
+    convert -size 32x32 xc:#2e7d32 -fill white -pointsize 20 -gravity center -draw "text 0,0 '🧫'" favicon-32.png
+    convert -size 16x16 xc:#2e7d32 -fill white -pointsize 8 -gravity center -draw "text 0,0 'F'" favicon-16.png
+    
+    # Convertir a ICO (formato favicon)
+    convert favicon-16.png favicon-32.png favicon-64.png favicon.ico
+    
+    # Crear también apple-touch-icon
+    convert -size 180x180 xc:#2e7d32 -fill white -pointsize 80 -gravity center -draw "text 0,0 '🧫'" apple-touch-icon.png
+    
+    # Crear manifest para PWA
+    cat > site.webmanifest << 'MANIFEST'
+{
+  "name": "Fermentation Expert App",
+  "short_name": "FermentationApp",
+  "description": "Aplicación web especializada en procesos de fermentación",
+  "start_url": "/fermentation-expert-app/",
+  "display": "standalone",
+  "background_color": "#2e7d32",
+  "theme_color": "#2e7d32",
+  "icons": [
+    {
+      "src": "/fermentation-expert-app/favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/fermentation-expert-app/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/fermentation-expert-app/favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/fermentation-expert-app/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
+MANIFEST
+    
+    echo "✅ Favicon creado: favicon.ico, favicon-*.png, apple-touch-icon.png"
+else
+    # Si no tiene ImageMagick, crear favicon simple manualmente
+    echo "⚠️  ImageMagick no encontrado, creando favicon básico..."
+    echo "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA" > favicon.b64
+    echo "B0lEQVR4nGNgGAWjYBQMOwA2NjYGBgYGBkZGRgZGRkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYG" >> favicon.b64
+    echo "RkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZG" >> favicon.b64
+    echo "RkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYGRkZGBkZGRgZGRkYGJgAAAAD//wMAQlsD6M0AAAAA" >> favicon.b64
+    echo "SUVORK5CYII=" >> favicon.b64
+    base64 -d favicon.b64 > favicon.ico 2>/dev/null || echo "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYSURBVDhPYxgFo2AUjIJRMAoAAQAABAABHwC6qg8eTgAAAABJRU5ErkJggg==" | base64 -d > favicon.ico
+    rm -f favicon.b64
+    echo "✅ Favicon básico creado: favicon.ico"
+fi
+
+echo ""
+echo "2. 📄 ACTUALIZANDO HTML CON FAVICON Y METADATOS..."
+
+# Actualizar fermentation_agent.html
+if [ -f "fermentation_agent.html" ]; then
+    # Buscar </head> y agregar antes
+    sed -i '' '/<\/head>/i\
+    <!-- Favicon and PWA -->\
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">\
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">\
+    <link rel="manifest" href="site.webmanifest">\
+    <link rel="mask-icon" href="favicon.svg" color="#2e7d32">\
+    <meta name="msapplication-TileColor" content="#2e7d32">\
+    <meta name="theme-color" content="#2e7d32">\
+    \
+    <!-- Open Graph / Facebook -->\
+    <meta property="og:type" content="website">\
+    <meta property="og:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">\
+    <meta property="og:title" content="Fermentation Expert App">\
+    <meta property="og:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">\
+    <meta property="og:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">\
+    \
+    <!-- Twitter -->\
+    <meta property="twitter:card" content="summary_large_image">\
+    <meta property="twitter:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">\
+    <meta property="twitter:title" content="Fermentation Expert App">\
+    <meta property="twitter:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">\
+    <meta property="twitter:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">\
+    ' fermentation_agent.html
+    
+    # También mejorar el title
+    sed -i '' 's|<title>Especialista en Fermentación Avanzado</title>|<title>🧫 Fermentation Expert App - Chat con Especialista</title>|' fermentation_agent.html
+    
+    echo "✅ fermentation_agent.html actualizado"
+fi
+
+# Actualizar tracker.html
+if [ -f "tracker.html" ]; then
+    sed -i '' '/<\/head>/i\
+    <!-- Favicon -->\
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">\
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">\
+    <link rel="manifest" href="site.webmanifest">\
+    <meta name="theme-color" content="#2e7d32">\
+    ' tracker.html
+    
+    sed -i '' 's|<title>Tracker de Desarrollo - Fermentation Expert</title>|<title>📊 Tracker - Fermentation Expert App</title>|' tracker.html
+    echo "✅ tracker.html actualizado"
+fi
+
+# Actualizar enterprise_configurator.html
+if [ -f "enterprise_configurator.html" ]; then
+    sed -i '' '/<\/head>/i\
+    <!-- Favicon -->\
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">\
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">\
+    <link rel="manifest" href="site.webmanifest">\
+    <meta name="theme-color" content="#2e7d32">\
+    ' enterprise_configurator.html
+    
+    sed -i '' 's|<title>🚀 Configurador Enterprise Ready</title>|<title>⚙️ Configurador - Fermentation Expert App</title>|' enterprise_configurator.html
+    echo "✅ enterprise_configurator.html actualizado"
+fi
+
+echo ""
+echo "3. 🖼️ CREANDO IMAGEN OG (Open Graph)..."
+# Crear imagen social simple (og-image.png)
+cat > generate_og_image.sh << 'OG_SCRIPT'
+#!/bin/bash
+# Si tiene ImageMagick, crear imagen OG
+if command -v convert &> /dev/null; then
+    convert -size 1200x630 gradient:#2e7d32-#4caf50 -fill white \
+        -pointsize 60 -gravity north -draw "text 0,100 '🧫 Fermentation Expert App'" \
+        -pointsize 30 -gravity center -draw "text 0,0 'Aplicación web especializada\nen procesos de fermentación'" \
+        -pointsize 20 -gravity south -draw "text 0,50 'wikibuda.github.io/fermentation-expert-app'" \
+        og-image.png
+    echo "✅ og-image.png creada"
+else
+    # Crear imagen placeholder
+    echo '<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2e7d32"/>
+                <stop offset="100%" stop-color="#4caf50"/>
+            </linearGradient>
+        </defs>
+        <rect width="1200" height="630" fill="url(#gradient)"/>
+        <text x="600" y="150" font-family="Arial" font-size="60" fill="white" text-anchor="middle">🧫 Fermentation Expert App</text>
+        <text x="600" y="300" font-family="Arial" font-size="30" fill="white" text-anchor="middle">
+            <tspan x="600" dy="0">Aplicación web especializada</tspan>
+            <tspan x="600" dy="40">en procesos de fermentación</tspan>
+        </text>
+        <text x="600" y="550" font-family="Arial" font-size="20" fill="white" text-anchor="middle">wikibuda.github.io/fermentation-expert-app</text>
+    </svg>' | tee og-image.svg
+    echo "✅ og-image.svg creada (conviértela a PNG manualmente si es necesario)"
+fi
+OG_SCRIPT
+
+chmod +x generate_og_image.sh
+./generate_og_image.sh
+
+echo ""
+echo "4. 📄 MEJORANDO index.html..."
+if [ -f "index.html" ]; then
+    cat > index.html << 'INDEX_EOF'
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -339,3 +517,28 @@
     </script>
 </body>
 </html>
+INDEX_EOF
+    echo "✅ index.html mejorado con diseño profesional"
+fi
+
+echo ""
+echo "5. 📤 SUBIENDO TODO A GITHUB..."
+git add .
+git commit -m "feat: add favicon, improve design and add PWA support"
+git push origin main
+
+echo ""
+echo "🎉 ¡FAVICON Y MEJORAS DE DISEÑO AGREGADAS!"
+echo ""
+echo "✅ Qué se agregó:"
+echo "   • 🖼️  Favicon en múltiples tamaños (.ico, .png)"
+echo "   • 📱 Soporte PWA (manifest, apple-touch-icon)"
+echo "   • 🎨 Open Graph meta tags para redes sociales"
+echo "   • 💫 Diseño profesional mejorado en index.html"
+echo "   • 🎯 Títulos y meta tags actualizados en todas las páginas"
+echo ""
+echo "⏱️  El deployment se ejecutará automáticamente..."
+echo "🔗 En 2-3 minutos verás los cambios en:"
+echo "   https://Wikibuda.github.io/fermentation-expert-app/"
+echo ""
+echo "📱 Prueba en diferentes dispositivos y comprueba el favicon en la pestaña del navegador!"
