@@ -1509,52 +1509,265 @@ Asegura que todo el contenido esté envuelto en etiquetas HTML apropiadas.`;
             }
         }
 
-        // Detectar si estamos en iframe y optimizar
+
+        // ==================== PANTALLA COMPLETA PARA IFRAME ====================
+        function initFullscreenSupport() {
+            // Solo ejecutar si estamos en iframe
+            if (window.self === window.top) return;
+            
+            console.log('🎯 Inicializando soporte pantalla completa para iframe');
+            
+            // Remover cualquier restricción de scrolling
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            
+            const container = document.querySelector('.container');
+            if (container) {
+                container.style.overflow = 'visible';
+                container.style.height = 'auto';
+                container.style.minHeight = 'auto';
+            }
+            
+            // Crear botón de pantalla completa
+            createFullscreenButton();
+            
+            // Ajustar scrolling dinámico
+            setupDynamicScrolling();
+            
+            // Añadir atajo de teclado F11
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F11') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+            });
+        }
+        
+        function createFullscreenButton() {
+            // Verificar si ya existe
+            if (document.getElementById('fullscreenBtn')) return;
+            
+            const button = document.createElement('button');
+            button.id = 'fullscreenBtn';
+            button.className = 'fullscreen-button';
+            button.innerHTML = '⛶ Expandir';
+            button.title = 'Pantalla completa (F11)';
+            
+            // Estilos del botón
+            button.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2e7d32, #1b5e20);
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                z-index: 10000;
+                box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            `;
+            
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'scale(1.05)';
+                button.style.boxShadow = '0 6px 20px rgba(46, 125, 50, 0.6)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+                button.style.boxShadow = '0 4px 15px rgba(46, 125, 50, 0.4)';
+            });
+            
+            button.addEventListener('click', toggleFullscreen);
+            
+            document.body.appendChild(button);
+            
+            // Actualizar estado inicial
+            updateFullscreenButton();
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+        
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { // Safari
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        }
+        
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { // Safari
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+        }
+        
+        function updateFullscreenButton() {
+            const button = document.getElementById('fullscreenBtn');
+            if (!button) return;
+            
+            const isFullscreen = document.fullscreenElement || 
+                                document.webkitFullscreenElement || 
+                                document.msFullscreenElement;
+            
+            if (isFullscreen) {
+                button.innerHTML = '⛶ Contraer';
+                button.title = 'Salir de pantalla completa (ESC)';
+                button.style.background = 'linear-gradient(135deg, #f57c00, #ef6c00)';
+            } else {
+                button.innerHTML = '⛶ Expandir';
+                button.title = 'Pantalla completa (F11)';
+                button.style.background = 'linear-gradient(135deg, #2e7d32, #1b5e20)';
+            }
+        }
+        
+        // Escuchar cambios de pantalla completa
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+        document.addEventListener('msfullscreenchange', updateFullscreenButton);
+        
+        // ==================== SCROLLING DINÁMICO ====================
+        function setupDynamicScrolling() {
+            // Asegurar que el body tenga scroll
+            document.body.style.overflowX = 'hidden';
+            document.body.style.overflowY = 'auto';
+            
+            // Ajustar contenedor principal
+            const container = document.querySelector('.container');
+            if (container) {
+                container.style.overflow = 'visible';
+                container.style.maxHeight = 'none';
+            }
+            
+            // Ajustar área de chat
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                chatMessages.style.overflowY = 'auto';
+                chatMessages.style.maxHeight = 'calc(100vh - 200px)';
+            }
+            
+            // Notificar al padre la altura actual
+            function notifyParentHeight() {
+                const height = document.documentElement.scrollHeight;
+                window.parent.postMessage({ 
+                    type: 'iframeHeight', 
+                    height: height,
+                    scrollable: true
+                }, '*');
+            }
+            
+            // Observar cambios en el DOM
+            const observer = new MutationObserver(notifyParentHeight);
+            observer.observe(document.body, { 
+                childList: true, 
+                subtree: true,
+                characterData: true 
+            });
+            
+            // También notificar en redimensionamiento
+            window.addEventListener('resize', notifyParentHeight);
+            
+            // Notificar altura inicial
+            setTimeout(notifyParentHeight, 500);
+        }
+        
+        // ==================== MODIFICAR DETECCIÓN DE IFRAME ====================
+        // Reemplaza la sección de detección de iframe existente con:
+        
         if (window.self !== window.top) {
-          console.log('🔗 App cargada en iframe de Shopify');
-          
-          // Ajustar estilos para iframe
-          document.documentElement.style.height = '100%';
-          document.body.style.height = '100%';
-          document.body.style.margin = '0';
-          document.body.style.padding = '10px';
-          
-          const container = document.querySelector('.container');
-          if (container) {
-            container.style.height = '100%';
-            container.style.minHeight = 'auto';
-            container.style.borderRadius = '10px';
-            container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-            container.style.overflow = 'hidden';
-          }
-          
-          // Notificar al padre que cargamos correctamente
-          window.parent.postMessage({ type: 'iframeLoaded', app: 'fermentationExpert' }, '*');
-          
-          // Ajustar altura dinámicamente
-          function sendHeightToParent() {
-            const height = document.documentElement.scrollHeight;
+            console.log('🔗 App cargada en iframe - Modo scrolling habilitado');
+            
+            // Ajustes mínimos para iframe
+            document.documentElement.style.height = 'auto';
+            document.body.style.height = 'auto';
+            document.body.style.margin = '0';
+            document.body.style.padding = '10px';
+            document.body.style.overflow = 'auto';
+            
+            // Contenedor principal
+            const container = document.querySelector('.container');
+            if (container) {
+                container.style.height = 'auto';
+                container.style.minHeight = 'auto';
+                container.style.borderRadius = '10px';
+                container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                container.style.overflow = 'visible';
+                container.style.maxWidth = '100%';
+            }
+            
+            // Inicializar soporte de pantalla completa
+            setTimeout(initFullscreenSupport, 100);
+            
+            // Notificar carga exitosa
             window.parent.postMessage({ 
-              type: 'iframeHeight', 
-              height: height 
+                type: 'iframeLoaded', 
+                app: 'fermentationExpert',
+                features: ['fullscreen', 'scrolling']
             }, '*');
-          }
-          
-          // Enviar altura inicial y cuando cambie contenido
-          setTimeout(sendHeightToParent, 100);
-          new MutationObserver(sendHeightToParent).observe(
-            document.body, 
-            { childList: true, subtree: true }
-          );
-          
-          // Manejar errores
-          window.addEventListener('error', function(e) {
-            window.parent.postMessage({ 
-              type: 'iframeError', 
-              error: e.message 
-            }, '*');
-          });
-        }    
+            
+            // Manejar mensajes del padre
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'requestHeight') {
+                    const height = document.documentElement.scrollHeight;
+                    window.parent.postMessage({ 
+                        type: 'iframeHeight', 
+                        height: height 
+                    }, '*');
+                }
+            });
+        }
+        
+        // Añadir estilos CSS para mejor experiencia en iframe
+        const iframeStyles = `
+            @media (max-width: 768px) {
+                .fullscreen-button {
+                    bottom: 15px !important;
+                    right: 15px !important;
+                    padding: 8px 16px !important;
+                    font-size: 13px !important;
+                }
+            }
+            
+            /* Mejorar scrolling en móviles */
+            @media (hover: none) and (pointer: coarse) {
+                .chat-messages {
+                    -webkit-overflow-scrolling: touch !important;
+                }
+            }
+            
+            /* Indicador visual de modo pantalla completa */
+            body:fullscreen .container,
+            body:-webkit-full-screen .container,
+            body:-moz-full-screen .container {
+                padding: 20px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+        `;
+        
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = iframeStyles;
+        document.head.appendChild(styleSheet);
 
 
     </script>
