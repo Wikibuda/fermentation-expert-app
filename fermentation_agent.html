@@ -1508,6 +1508,55 @@ Asegura que todo el contenido esté envuelto en etiquetas HTML apropiadas.`;
                 alert('Chat limpiado exitosamente');
             }
         }
+
+        // Detectar si estamos en iframe y optimizar
+        if (window.self !== window.top) {
+          console.log('🔗 App cargada en iframe de Shopify');
+          
+          // Ajustar estilos para iframe
+          document.documentElement.style.height = '100%';
+          document.body.style.height = '100%';
+          document.body.style.margin = '0';
+          document.body.style.padding = '10px';
+          
+          const container = document.querySelector('.container');
+          if (container) {
+            container.style.height = '100%';
+            container.style.minHeight = 'auto';
+            container.style.borderRadius = '10px';
+            container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            container.style.overflow = 'hidden';
+          }
+          
+          // Notificar al padre que cargamos correctamente
+          window.parent.postMessage({ type: 'iframeLoaded', app: 'fermentationExpert' }, '*');
+          
+          // Ajustar altura dinámicamente
+          function sendHeightToParent() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ 
+              type: 'iframeHeight', 
+              height: height 
+            }, '*');
+          }
+          
+          // Enviar altura inicial y cuando cambie contenido
+          setTimeout(sendHeightToParent, 100);
+          new MutationObserver(sendHeightToParent).observe(
+            document.body, 
+            { childList: true, subtree: true }
+          );
+          
+          // Manejar errores
+          window.addEventListener('error', function(e) {
+            window.parent.postMessage({ 
+              type: 'iframeError', 
+              error: e.message 
+            }, '*');
+          });
+        }    
+
+
     </script>
     
     <!-- Service Worker Registration -->
