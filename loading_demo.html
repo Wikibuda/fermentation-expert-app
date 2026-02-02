@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Animaciones de Espera - Fermentation Expert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .demo-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .demo-card:hover {
+            border-color: #2e7d32;
+            transform: translateY(-5px);
+        }
+        
+        .demo-title {
+            color: #1b5e20;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preview-area {
+            min-height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+        
+        .code-block {
+            background: #263238;
+            color: #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .toggle-code {
+            background: none;
+            border: none;
+            color: #2e7d32;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2e7d32;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <a href="/fermentation-expert-app/" class="back-link">← Volver a la app</a>
+        
+        <h1>🎨 Demo: Animaciones de Espera</h1>
+        <p class="subtitle">Elige tu estilo favorito para la espera de respuesta</p>
+        
+        <div class="demo-grid">
+            <!-- Estilo 1: Completo -->
+            <div class="demo-card">
+                <h3 class="demo-title">🎭 Estilo Completo</h3>
+                <p>Todas las animaciones: spinner, progreso, burbujas y tips dinámicos.</p>
+                <div class="preview-area" id="preview1">
+                    <!-- Se cargará dinámicamente -->
+                </div>
+                <button class="toggle-code" onclick="toggleCode('code1')">Ver código</button>
+                <div id="code1" class="code-block">
+                    // Usa el estilo completo en fermentation_agent.html
+                </div>
+            </div>
+            
+            <!-- Estilo 2: Minimalista -->
+            <div class="demo-card">
+                <h3 class="demo-title">✨ Estilo Minimalista</h3>
+                <p>Simple, limpio y rápido. Ideal para conexiones lentas.</p>
+                <div class="preview-area" id="preview2"></div>
+                <button class="toggle-code" onclick="toggleCode('code2')">Ver código</button>
+                <div id="code2" class="code-block">
+                    // Código minimalista disponible en simple_loading.html
+                </div>
+            </div>
+            
+            <!-- Estilo 3: Móvil -->
+            <div class="demo-card">
+                <h3 class="demo-title">📱 Estilo Móvil</h3>
+                <p>Optimizado para pantallas pequeñas con tiempo estimado.</p>
+                <div class="preview-area" id="preview3"></div>
+                <button class="toggle-code" onclick="toggleCode('code3')">Ver código</button>
+                <div id="code3" class="code-block">
+                    // Código móvil en mobile_loading.html
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="fermentation_agent.html" class="btn">Probar en el chat real →</a>
+        </div>
+    </div>
+    
+    <script>
+        // Cargar las vistas previas
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vista previa 1: Estilo completo
+            fetch('simple_loading.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('preview1').innerHTML = html;
+                });
+            
+            // Vista previa 2: Minimalista
+            document.getElementById('preview2').innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🧠</div>
+                    <div style="font-weight: bold; color: #2e7d32;">Pensando...</div>
+                    <div style="display: flex; gap: 5px; margin-top: 15px; justify-content: center;">
+                        <div style="width: 8px; height: 8px; background: #2e7d32; border-radius: 50%;
+                             animation: demo-pulse 1s infinite;"></div>
+                        <div style="width: 8px; height: 8px; background: #2e7d32; border-radius: 50%;
+                             animation: demo-pulse 1s infinite 0.2s;"></div>
+                        <div style="width: 8px; height: 8px; background: #2e7d32; border-radius: 50%;
+                             animation: demo-pulse 1s infinite 0.4s;"></div>
+                    </div>
+                </div>
+                <style>
+                    @keyframes demo-pulse {
+                        0%, 100% { opacity: 0.3; transform: scale(0.8); }
+                        50% { opacity: 1; transform: scale(1.2); }
+                    }
+                </style>
+            `;
+            
+            // Vista previa 3: Móvil
+            document.getElementById('preview3').innerHTML = `
+                <div style="width: 100%; max-width: 250px;">
+                    <div style="text-align: center; font-size: 1.8rem; margin-bottom: 10px;
+                         animation: demo-float 2s infinite;">🥬</div>
+                    <div style="font-weight: 600; color: #2e7d32; text-align: center; margin-bottom: 10px;">
+                        Analizando...
+                    </div>
+                    <div style="background: #e0e0e0; height: 3px; border-radius: 1.5px; overflow: hidden;">
+                        <div style="height: 100%; width: 60%; background: #4caf50; border-radius: 1.5px;
+                             animation: demo-slide 2s infinite;"></div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #666; text-align: center; margin-top: 10px;">
+                        ⏱️ 15s restantes
+                    </div>
+                </div>
+                <style>
+                    @keyframes demo-float {
+                        0%, 100% { transform: translateY(0); }
+                        50% { transform: translateY(-5px); }
+                    }
+                    @keyframes demo-slide {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(200%); }
+                    }
+                </style>
+            `;
+        });
+        
+        function toggleCode(id) {
+            const codeBlock = document.getElementById(id);
+            codeBlock.style.display = codeBlock.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

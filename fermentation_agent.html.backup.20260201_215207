@@ -154,7 +154,7 @@
         "🎯 Preparando respuesta personalizada..."
     ];
     
-    // const fermentationFacts = (DUPLICADA - COMENTADA) [
+    const fermentationFacts = [
         "💡 La fermentación puede aumentar el valor nutricional de los alimentos",
         "🌡️ La temperatura ideal para fermentación láctica es 18-22°C",
         "⏳ El kimchi coreano puede tener más de 200 variedades diferentes",
@@ -1890,7 +1890,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
             "🧀 Evaluando maduración óptima..."
         ];
         
-        // const fermentationFacts = (DUPLICADA - COMENTADA) [
+        const fermentationFacts = [
             "¿Sabías que la fermentación puede aumentar el valor nutricional de los alimentos?",
             "La temperatura ideal para la fermentación láctica es entre 18-22°C",
             "El kimchi coreano puede tener más de 200 variedades",
@@ -1974,7 +1974,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
         }
     
     /* 🌀 Sistema de texto dinámico para animaciones de espera */
-    // const thinkingPhrases = (DUPLICADA) [
+    const thinkingPhrases = [
         "🔬 Analizando parámetros microbiológicos...",
         "🌡️ Evaluando temperaturas óptimas...",
         "⏱️ Calculando tiempos de fermentación...",
@@ -1992,7 +1992,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
         "🎯 Preparando respuesta personalizada..."
     ];
     
-    // const fermentationFacts = (DUPLICADA - COMENTADA) [
+    const fermentationFacts = [
         "💡 La fermentación puede aumentar el valor nutricional de los alimentos",
         "🌡️ La temperatura ideal para fermentación láctica es 18-22°C",
         "⏳ El kimchi coreano puede tener más de 200 variedades diferentes",
@@ -2010,32 +2010,32 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
     let currentThinkingIndex = 0;
     let currentTipIndex = 0;
     
-//    function startLoadingAnimations() {
-//        const thinkingText = document.getElementById("dynamicThinkingText");
-//        const tipsElement = document.getElementById("thinkingTips");
-//        
-//        // Limpiar intervalos anteriores por seguridad
-//        if (thinkingInterval) clearInterval(thinkingInterval);
-//        if (tipsInterval) clearInterval(tipsInterval);
-//        
-//        // Animación de texto dinámico
-//        if (thinkingText) {
-//            currentThinkingIndex = 0;
-//            thinkingText.textContent = thinkingPhrases[0];
-//            
-//            thinkingInterval = setInterval(() => {
-//                currentThinkingIndex = (currentThinkingIndex + 1) % thinkingPhrases.length;
-//                thinkingText.style.opacity = "0.5";
-//                thinkingText.style.transform = "translateY(5px)";
-//                
-//                setTimeout(() => {
-//                    thinkingText.textContent = thinkingPhrases[currentThinkingIndex];
-//                    thinkingText.style.opacity = "1";
-//                    thinkingText.style.transform = "translateY(0)";
-//                    thinkingText.style.transition = "all 0.3s ease";
-//                }, 150);
-//            }, 2500); // Cambia cada 2.5 segundos
-//        }
+    function startLoadingAnimations() {
+        const thinkingText = document.getElementById("dynamicThinkingText");
+        const tipsElement = document.getElementById("thinkingTips");
+        
+        // Limpiar intervalos anteriores por seguridad
+        if (thinkingInterval) clearInterval(thinkingInterval);
+        if (tipsInterval) clearInterval(tipsInterval);
+        
+        // Animación de texto dinámico
+        if (thinkingText) {
+            currentThinkingIndex = 0;
+            thinkingText.textContent = thinkingPhrases[0];
+            
+            thinkingInterval = setInterval(() => {
+                currentThinkingIndex = (currentThinkingIndex + 1) % thinkingPhrases.length;
+                thinkingText.style.opacity = "0.5";
+                thinkingText.style.transform = "translateY(5px)";
+                
+                setTimeout(() => {
+                    thinkingText.textContent = thinkingPhrases[currentThinkingIndex];
+                    thinkingText.style.opacity = "1";
+                    thinkingText.style.transform = "translateY(0)";
+                    thinkingText.style.transition = "all 0.3s ease";
+                }, 150);
+            }, 2500); // Cambia cada 2.5 segundos
+        }
         
         // Animación de tips
         if (tipsElement) {
@@ -2122,7 +2122,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
             "🧀 Evaluando maduración óptima..."
         ];
         
-        // const fermentationFacts = (DUPLICADA - COMENTADA) [
+        const fermentationFacts = [
             "¿Sabías que la fermentación puede aumentar el valor nutricional de los alimentos?",
             "La temperatura ideal para la fermentación láctica es entre 18-22°C",
             "El kimchi coreano puede tener más de 200 variedades",
@@ -2206,7 +2206,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
         }
     
     /* 🌀 Sistema de texto dinámico para animaciones de espera */
-    // const thinkingPhrases = (DUPLICADA) [
+    const thinkingPhrases = [
         "🔬 Analizando parámetros microbiológicos...",
         "🌡️ Evaluando temperaturas óptimas...",
         "⏱️ Calculando tiempos de fermentación...",
@@ -2224,7 +2224,7 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
         "🎯 Preparando respuesta personalizada..."
     ];
     
-    // const fermentationFacts = (DUPLICADA - COMENTADA) [
+    const fermentationFacts = [
         "💡 La fermentación puede aumentar el valor nutricional de los alimentos",
         "🌡️ La temperatura ideal para fermentación láctica es 18-22°C",
         "⏳ El kimchi coreano puede tener más de 200 variedades diferentes",
@@ -2242,32 +2242,32 @@ Empoderar a los usuarios con conocimiento científico sólido y habilidades prá
     let currentThinkingIndex = 0;
     let currentTipIndex = 0;
     
-//    function startLoadingAnimations() {
-//        const thinkingText = document.getElementById("dynamicThinkingText");
-//        const tipsElement = document.getElementById("thinkingTips");
-//        
-//        // Limpiar intervalos anteriores por seguridad
-//        if (thinkingInterval) clearInterval(thinkingInterval);
-//        if (tipsInterval) clearInterval(tipsInterval);
-//        
-//        // Animación de texto dinámico
-//        if (thinkingText) {
-//            currentThinkingIndex = 0;
-//            thinkingText.textContent = thinkingPhrases[0];
-//            
-//            thinkingInterval = setInterval(() => {
-//                currentThinkingIndex = (currentThinkingIndex + 1) % thinkingPhrases.length;
-//                thinkingText.style.opacity = "0.5";
-//                thinkingText.style.transform = "translateY(5px)";
-//                
-//                setTimeout(() => {
-//                    thinkingText.textContent = thinkingPhrases[currentThinkingIndex];
-//                    thinkingText.style.opacity = "1";
-//                    thinkingText.style.transform = "translateY(0)";
-//                    thinkingText.style.transition = "all 0.3s ease";
-//                }, 150);
-//            }, 2500); // Cambia cada 2.5 segundos
-//        }
+    function startLoadingAnimations() {
+        const thinkingText = document.getElementById("dynamicThinkingText");
+        const tipsElement = document.getElementById("thinkingTips");
+        
+        // Limpiar intervalos anteriores por seguridad
+        if (thinkingInterval) clearInterval(thinkingInterval);
+        if (tipsInterval) clearInterval(tipsInterval);
+        
+        // Animación de texto dinámico
+        if (thinkingText) {
+            currentThinkingIndex = 0;
+            thinkingText.textContent = thinkingPhrases[0];
+            
+            thinkingInterval = setInterval(() => {
+                currentThinkingIndex = (currentThinkingIndex + 1) % thinkingPhrases.length;
+                thinkingText.style.opacity = "0.5";
+                thinkingText.style.transform = "translateY(5px)";
+                
+                setTimeout(() => {
+                    thinkingText.textContent = thinkingPhrases[currentThinkingIndex];
+                    thinkingText.style.opacity = "1";
+                    thinkingText.style.transform = "translateY(0)";
+                    thinkingText.style.transition = "all 0.3s ease";
+                }, 150);
+            }, 2500); // Cambia cada 2.5 segundos
+        }
         
         // Animación de tips
         if (tipsElement) {

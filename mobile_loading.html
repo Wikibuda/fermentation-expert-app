@@ -1,0 +1,137 @@
+<div class="thinking-mobile">
+    <div class="mobile-thinking-content">
+        <!-- Icono animado -->
+        <div class="mobile-icon">🥬</div>
+        
+        <!-- Texto principal -->
+        <div class="mobile-title">Procesando...</div>
+        
+        <!-- Barra de progreso minimalista -->
+        <div class="mobile-progress-track">
+            <div class="mobile-progress-bar"></div>
+        </div>
+        
+        <!-- Indicador de actividad -->
+        <div class="mobile-activity">
+            <span class="activity-dot"></span>
+            <span class="activity-text">Analizando fermentación</span>
+        </div>
+        
+        <!-- Tiempo estimado -->
+        <div class="mobile-estimate">
+            ⏱️ <span id="timeEstimate">10s</span> restantes
+        </div>
+    </div>
+</div>
+
+<style>
+.thinking-mobile {
+    background: linear-gradient(135deg, #f8fff9 0%, #f0f9f1 100%);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px;
+    border-left: 3px solid #2e7d32;
+}
+
+.mobile-thinking-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-icon {
+    font-size: 2rem;
+    animation: mobile-float 2s ease-in-out infinite;
+}
+
+.mobile-title {
+    font-weight: 600;
+    color: #2e7d32;
+    font-size: 1rem;
+}
+
+.mobile-progress-track {
+    width: 100%;
+    height: 3px;
+    background: #e0e0e0;
+    border-radius: 1.5px;
+    overflow: hidden;
+}
+
+.mobile-progress-bar {
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #2e7d32, #4caf50);
+    border-radius: 1.5px;
+    animation: mobile-progress 2s ease-in-out infinite;
+}
+
+.mobile-activity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.activity-dot {
+    width: 6px;
+    height: 6px;
+    background: #4caf50;
+    border-radius: 50%;
+    animation: mobile-pulse 1.5s infinite;
+}
+
+.mobile-estimate {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+}
+
+@keyframes mobile-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(5deg); }
+}
+
+@keyframes mobile-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+@keyframes mobile-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Efecto de conteo regresivo */
+@keyframes countdown {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+}
+</style>
+
+<script>
+// Actualizar tiempo estimado
+let timeLeft = 10;
+const timeElement = document.getElementById('timeEstimate');
+const countdownInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+        timeLeft = 5; // Reiniciar
+        timeElement.style.animation = 'countdown 0.5s';
+        setTimeout(() => {
+            timeElement.style.animation = '';
+        }, 500);
+    }
+    timeElement.textContent = `${timeLeft}s`;
+}, 1000);
+
+// Cambiar iconos aleatoriamente
+const icons = ['🧫', '🥬', '🍞', '🍶', '⚗️', '🔬', '🌡️', '⏱️'];
+const iconElement = document.querySelector('.mobile-icon');
+setInterval(() => {
+    const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+    iconElement.textContent = randomIcon;
+}, 2000);
+</script>
