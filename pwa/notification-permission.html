@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - Fermentation Expert</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --light: #f1f8e9;
+            --dark: #263238;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .permission-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .benefits {
+            text-align: left;
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .benefit-icon {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .privacy-note {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+        
+        .control-panel {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .status {
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .status.granted {
+            background: #e8f5e9;
+            color: var(--primary);
+        }
+        
+        .status.denied {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .status.default {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        @media (max-width: 480px) {
+            .permission-card {
+                padding: 25px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="permission-card">
+        <div class="icon">🔔</div>
+        <h1>Notificaciones de Fermentation Expert</h1>
+        <p>Recibe alertas importantes sobre tus procesos de fermentación, recordatorios y actualizaciones.</p>
+        
+        <div class="benefits">
+            <div class="benefit-item">
+                <span class="benefit-icon">⏰</span>
+                <span>Recordatorios de tus fermentaciones</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">⚠️</span>
+                <span>Alertas cuando necesites intervenir</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🔄</span>
+                <span>Actualizaciones de nuevas características</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🔒</span>
+                <span>Solo notificaciones relevantes, sin spam</span>
+            </div>
+        </div>
+        
+        <div class="control-panel">
+            <div class="control-item">
+                <span>Estado de permisos:</span>
+                <span id="permissionStatus" class="status default">No configurado</span>
+            </div>
+            <div class="control-item">
+                <span>Notificaciones activas:</span>
+                <span id="notificationCount">0</span>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="enableBtn" class="btn btn-primary">
+                Activar Notificaciones
+            </button>
+            <button id="laterBtn" class="btn btn-secondary">
+                Recordármelo después
+            </button>
+        </div>
+        
+        <div class="privacy-note">
+            🔒 Respetamos tu privacidad. Las notificaciones solo se usarán para alertas relacionadas con la app. 
+            Puedes desactivarlas en cualquier momento desde la configuración de tu navegador.
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const enableBtn = document.getElementById('enableBtn');
+            const laterBtn = document.getElementById('laterBtn');
+            const statusEl = document.getElementById('permissionStatus');
+            const countEl = document.getElementById('notificationCount');
+            
+            // Verificar estado actual
+            updatePermissionStatus();
+            
+            // Botón "Activar" - SOLO aquí solicitamos permisos
+            enableBtn.addEventListener('click', async () => {
+                try {
+                    // Explicar claramente lo que haremos
+                    const userConfirmed = confirm(
+                        'Fermentation Expert te enviará:\n' +
+                        '• Recordatorios de fermentación\n' +
+                        '• Alertas importantes\n' +
+                        '• Actualizaciones relevantes\n\n' +
+                        '¿Quieres permitir las notificaciones?'
+                    );
+                    
+                    if (!userConfirmed) {
+                        statusEl.textContent = 'Cancelado por el usuario';
+                        statusEl.className = 'status denied';
+                        savePreference('notifications', 'denied');
+                        return;
+                    }
+                    
+                    // Solicitar permiso (solo después de confirmación del usuario)
+                    const permission = await Notification.requestPermission();
+                    
+                    updatePermissionStatus();
+                    savePreference('notifications', permission);
+                    
+                    if (permission === 'granted') {
+                        // Mostrar notificación de prueba (opcional)
+                        showWelcomeNotification();
+                        alert('✅ Notificaciones activadas. ¡Gracias!');
+                        
+                        // Redirigir a la página principal después de un momento
+                        setTimeout(() => {
+                            window.location.href = '/fermentation-expert-app/';
+                        }, 1500);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error solicitando permisos:', error);
+                    statusEl.textContent = 'Error';
+                    statusEl.className = 'status denied';
+                }
+            });
+            
+            // Botón "Recordármelo después"
+            laterBtn.addEventListener('click', () => {
+                savePreference('notifications', 'later');
+                localStorage.setItem('notificationPromptTime', Date.now() + (7 * 24 * 60 * 60 * 1000)); // 1 semana
+                window.location.href = '/fermentation-expert-app/';
+            });
+            
+            // Mostrar notificación de bienvenida
+            function showWelcomeNotification() {
+                if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification('¡Bienvenido a Fermentation Expert!', {
+                            body: 'Las notificaciones están ahora activadas. ¡Te avisaremos de cosas importantes!',
+                            icon: '/fermentation-expert-app/pwa/icon-192x192.png',
+                            badge: '/fermentation-expert-app/pwa/icon-96x96.png',
+                            tag: 'welcome-notification'
+                        });
+                        
+                        // Actualizar contador
+                        const currentCount = parseInt(localStorage.getItem('notificationCount') || '0');
+                        localStorage.setItem('notificationCount', currentCount + 1);
+                        updateNotificationCount();
+                    });
+                }
+            }
+            
+            // Actualizar estado de permisos
+            function updatePermissionStatus() {
+                const permission = Notification.permission;
+                statusEl.textContent = permission === 'granted' ? 'Activadas' : 
+                                      permission === 'denied' ? 'Denegadas' : 'No configurado';
+                statusEl.className = `status ${permission}`;
+                
+                // Ocultar botón si ya está concedido
+                if (permission === 'granted') {
+                    enableBtn.style.display = 'none';
+                    laterBtn.textContent = 'Volver a la app';
+                }
+            }
+            
+            // Actualizar contador
+            function updateNotificationCount() {
+                const count = localStorage.getItem('notificationCount') || '0';
+                countEl.textContent = count;
+            }
+            
+            // Guardar preferencia del usuario
+            function savePreference(type, value) {
+                localStorage.setItem(`preference_${type}`, value);
+                localStorage.setItem(`preference_${type}_date`, new Date().toISOString());
+            }
+            
+            // Inicializar
+            updateNotificationCount();
+            
+            // Si ya tiene permisos, redirigir después de 3 segundos
+            if (Notification.permission === 'granted') {
+                setTimeout(() => {
+                    window.location.href = '/fermentation-expert-app/';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

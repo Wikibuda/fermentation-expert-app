@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Notificaciones - Fermentation Expert</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --secondary: #2196f3;
+            --light: #f1f8e9;
+            --dark: #263238;
+            --gray: #757575;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .status-card {
+            background: var(--light);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.active {
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.inactive {
+            background: #f44336;
+        }
+        
+        .status-dot.unknown {
+            background: #ff9800;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .notification-types {
+            margin: 20px;
+        }
+        
+        .type-item {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .type-item:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .type-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .type-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .type-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .type-example {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            color: #555;
+        }
+        
+        .schedule-section {
+            margin: 20px;
+            padding: 20px;
+            background: #f8fdff;
+            border-radius: 15px;
+            border: 2px dashed #bbdefb;
+        }
+        
+        .time-picker {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .time-option {
+            background: #e3f2fd;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-option:hover {
+            background: #bbdefb;
+        }
+        
+        .time-option.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .actions {
+            margin: 30px 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-danger {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .btn-danger:hover {
+            background: #ffcdd2;
+        }
+        
+        .test-section {
+            margin: 20px;
+            padding: 20px;
+            background: #fff8e1;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 600px) {
+            .dashboard {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <a href="/fermentation-expert-app/" class="back-btn">← Volver</a>
+            <h1>🔔 Configurar Notificaciones</h1>
+            <p class="subtitle">Controla cómo y cuándo recibir actualizaciones</p>
+        </header>
+        
+        <div class="status-card">
+            <div class="status-indicator">
+                <div id="globalStatusDot" class="status-dot unknown"></div>
+                <span id="globalStatusText">Verificando estado...</span>
+            </div>
+            <button id="toggleAllBtn" class="btn-secondary" style="padding: 8px 15px;">
+                Activar todas
+            </button>
+        </div>
+        
+        <div class="notification-types">
+            <h3 style="margin: 20px 0 10px 20px; color: var(--dark);">Tipos de notificaciones</h3>
+            
+            <div class="type-item">
+                <div class="type-header">
+                    <div class="type-title">Recordatorios de fermentación</div>
+                    <label class="switch">
+                        <input type="checkbox" id="remindersToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="type-description">
+                    Alertas cuando tus fermentaciones necesiten atención (revolver, traspasar, envasar).
+                </p>
+                <div class="type-example">
+                    Ejemplo: "Tu masa madre necesita alimento en 2 horas"
+                </div>
+            </div>
+            
+            <div class="type-item">
+                <div class="type-header">
+                    <div class="type-title">Respuestas del experto</div>
+                    <label class="switch">
+                        <input type="checkbox" id="answersToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="type-description">
+                    Notificaciones cuando el experto en fermentación responda a tus preguntas.
+                </p>
+                <div class="type-example">
+                    Ejemplo: "El experto ha respondido a tu consulta sobre kimchi"
+                </div>
+            </div>
+            
+            <div class="type-item">
+                <div class="type-header">
+                    <div class="type-title">Consejos y tips</div>
+                    <label class="switch">
+                        <input type="checkbox" id="tipsToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="type-description">
+                    Consejos semanales sobre técnicas de fermentación y mejores prácticas.
+                </p>
+                <div class="type-example">
+                    Ejemplo: "Tip del día: Cómo mantener temperatura constante para kombucha"
+                </div>
+            </div>
+            
+            <div class="type-item">
+                <div class="type-header">
+                    <div class="type-title">Actualizaciones de la app</div>
+                    <label class="switch">
+                        <input type="checkbox" id="updatesToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="type-description">
+                    Información sobre nuevas características y actualizaciones importantes.
+                </p>
+                <div class="type-example">
+                    Ejemplo: "Nueva función: Calculadora de proporciones para chucrut"
+                </div>
+            </div>
+        </div>
+        
+        <div class="schedule-section">
+            <h3 style="margin-bottom: 15px; color: var(--secondary);">⏰ Horario preferido</h3>
+            <p style="color: var(--gray); margin-bottom: 15px;">
+                Elige cuándo prefieres recibir notificaciones (excepto recordatorios urgentes):
+            </p>
+            <div class="time-picker">
+                <button class="time-option active" data-time="any">Cualquier hora</button>
+                <button class="time-option" data-time="morning">Mañana (8-12)</button>
+                <button class="time-option" data-time="afternoon">Tarde (12-18)</button>
+                <button class="time-option" data-time="evening">Noche (18-22)</button>
+                <button class="time-option" data-time="weekdays">Solo días laborables</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3 style="margin-bottom: 15px; color: #ff9800;">🧪 Probar notificaciones</h3>
+            <p style="color: var(--gray); margin-bottom: 15px;">
+                Envía una notificación de prueba para verificar que todo funciona correctamente.
+            </p>
+            <button id="testNotificationBtn" class="btn-secondary">Enviar notificación de prueba</button>
+        </div>
+        
+        <div class="actions">
+            <button id="saveBtn" class="btn-primary">💾 Guardar configuración</button>
+            <button id="disableAllBtn" class="btn-danger">🔕 Desactivar todas</button>
+        </div>
+        
+        <footer>
+            <p>🔒 Respetamos tu privacidad. Las notificaciones solo se usarán según tus preferencias.</p>
+            <p>Puedes cambiar estos ajustes en cualquier momento o desactivarlas desde la configuración de tu navegador.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementos del DOM
+            const globalStatusDot = document.getElementById('globalStatusDot');
+            const globalStatusText = document.getElementById('globalStatusText');
+            const toggleAllBtn = document.getElementById('toggleAllBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const disableAllBtn = document.getElementById('disableAllBtn');
+            const testNotificationBtn = document.getElementById('testNotificationBtn');
+            
+            const toggles = {
+                reminders: document.getElementById('remindersToggle'),
+                answers: document.getElementById('answersToggle'),
+                tips: document.getElementById('tipsToggle'),
+                updates: document.getElementById('updatesToggle')
+            };
+            
+            const timeOptions = document.querySelectorAll('.time-option');
+            
+            // Cargar configuración guardada
+            loadSettings();
+            
+            // Actualizar estado global
+            updateGlobalStatus();
+            
+            // Botón "Activar todas"
+            toggleAllBtn.addEventListener('click', () => {
+                const allEnabled = Array.from(Object.values(toggles)).every(t => t.checked);
+                
+                Object.values(toggles).forEach(toggle => {
+                    toggle.checked = !allEnabled;
+                });
+                
+                updateGlobalStatus();
+                toggleAllBtn.textContent = allEnabled ? 'Activar todas' : 'Desactivar todas';
+            });
+            
+            // Guardar configuración
+            saveBtn.addEventListener('click', () => {
+                saveSettings();
+                showMessage('✅ Configuración guardada correctamente');
+            });
+            
+            // Desactivar todas
+            disableAllBtn.addEventListener('click', () => {
+                if (confirm('¿Estás seguro de que quieres desactivar todas las notificaciones?')) {
+                    Object.values(toggles).forEach(toggle => {
+                        toggle.checked = false;
+                    });
+                    
+                    // También desactivar permisos del navegador si están activos
+                    if (Notification.permission === 'granted') {
+                        // No podemos revocar permisos, pero podemos desactivar nuestras notificaciones
+                        localStorage.setItem('notifications_disabled', 'true');
+                        showMessage('🔕 Todas las notificaciones desactivadas');
+                    }
+                    
+                    updateGlobalStatus();
+                    saveSettings();
+                }
+            });
+            
+            // Probar notificación
+            testNotificationBtn.addEventListener('click', async () => {
+                if (Notification.permission !== 'granted') {
+                    alert('Primero necesitas activar los permisos de notificación.');
+                    return;
+                }
+                
+                try {
+                    // Usar Service Worker para mostrar notificación
+                    if ('serviceWorker' in navigator) {
+                        const registration = await navigator.serviceWorker.ready;
+                        
+                        registration.showNotification('Prueba de Fermentation Expert', {
+                            body: '¡Las notificaciones están funcionando correctamente! 🎉',
+                            icon: '/fermentation-expert-app/pwa/icon-192x192.png',
+                            badge: '/fermentation-expert-app/pwa/icon-96x96.png',
+                            tag: 'test-notification',
+                            vibrate: [100, 50, 100],
+                            actions: [
+                                { action: 'open', title: 'Abrir app' },
+                                { action: 'close', title: 'Cerrar' }
+                            ]
+                        });
+                        
+                        showMessage('📱 Notificación de prueba enviada');
+                    } else {
+                        // Fallback a Notification API
+                        new Notification('Prueba de Fermentation Expert', {
+                            body: 'Notificaciones funcionando correctamente',
+                            icon: '/fermentation-expert-app/pwa/icon-192x192.png'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error enviando notificación:', error);
+                    showMessage('❌ Error enviando notificación', true);
+                }
+            });
+            
+            // Selector de hora
+            timeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    timeOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+            
+            // Actualizar estado cuando cambien los toggles
+            Object.values(toggles).forEach(toggle => {
+                toggle.addEventListener('change', updateGlobalStatus);
+            });
+            
+            // Funciones
+            function updateGlobalStatus() {
+                const anyEnabled = Array.from(Object.values(toggles)).some(t => t.checked);
+                const permission = Notification.permission;
+                
+                if (permission === 'granted' && anyEnabled) {
+                    globalStatusDot.className = 'status-dot active';
+                    globalStatusText.textContent = 'Notificaciones activadas';
+                    toggleAllBtn.textContent = 'Desactivar todas';
+                } else if (permission === 'denied') {
+                    globalStatusDot.className = 'status-dot inactive';
+                    globalStatusText.textContent = 'Permisos denegados en el navegador';
+                    toggleAllBtn.textContent = 'Activar todas';
+                } else if (!anyEnabled) {
+                    globalStatusDot.className = 'status-dot inactive';
+                    globalStatusText.textContent = 'Notificaciones desactivadas';
+                    toggleAllBtn.textContent = 'Activar todas';
+                } else {
+                    globalStatusDot.className = 'status-dot unknown';
+                    globalStatusText.textContent = 'Permisos no configurados';
+                    toggleAllBtn.textContent = 'Activar todas';
+                }
+            }
+            
+            function loadSettings() {
+                const settings = JSON.parse(localStorage.getItem('notification_settings') || '{}');
+                
+                // Cargar toggles
+                if (settings.reminders !== undefined) toggles.reminders.checked = settings.reminders;
+                if (settings.answers !== undefined) toggles.answers.checked = settings.answers;
+                if (settings.tips !== undefined) toggles.tips.checked = settings.tips;
+                if (settings.updates !== undefined) toggles.updates.checked = settings.updates;
+                
+                // Cargar horario
+                if (settings.schedule) {
+                    timeOptions.forEach(opt => {
+                        opt.classList.toggle('active', opt.dataset.time === settings.schedule);
+                    });
+                }
+            }
+            
+            function saveSettings() {
+                const settings = {
+                    reminders: toggles.reminders.checked,
+                    answers: toggles.answers.checked,
+                    tips: toggles.tips.checked,
+                    updates: toggles.updates.checked,
+                    schedule: document.querySelector('.time-option.active').dataset.time,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                localStorage.setItem('notification_settings', JSON.stringify(settings));
+                
+                // También guardar en el Service Worker si está disponible
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.active.postMessage({
+                            type: 'UPDATE_SETTINGS',
+                            settings: settings
+                        });
+                    });
+                }
+            }
+            
+            function showMessage(text, isError = false) {
+                // Crear mensaje temporal
+                const message = document.createElement('div');
+                message.textContent = text;
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${isError ? '#f44336' : '#4caf50'};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 10px;
+                    z-index: 9999;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    animation: slideIn 0.3s ease-out;
+                `;
+                
+                document.body.appendChild(message);
+                
+                // Remover después de 3 segundos
+                setTimeout(() => {
+                    message.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => message.remove(), 300);
+                }, 3000);
+                
+                // Agregar estilos de animación si no existen
+                if (!document.getElementById('message-styles')) {
+                    const styles = document.createElement('style');
+                    styles.id = 'message-styles';
+                    styles.textContent = `
+                        @keyframes slideIn {
+                            from { transform: translateX(100%); opacity: 0; }
+                            to { transform: translateX(0); opacity: 1; }
+                        }
+                        @keyframes slideOut {
+                            from { transform: translateX(0); opacity: 1; }
+                            to { transform: translateX(100%); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(styles);
+                }
+            }
+            
+            // Verificar permisos iniciales
+            if (Notification.permission === 'default') {
+                // Sugerir activar permisos si no hay configuración
+                const hasSettings = localStorage.getItem('notification_settings');
+                if (!hasSettings) {
+                    setTimeout(() => {
+                        if (confirm('¿Te gustaría configurar las notificaciones para recibir alertas importantes sobre tus fermentaciones?')) {
+                            // Redirigir a página de permisos
+                            window.location.href = '/fermentation-expert-app/pwa/notification-permission.html';
+                        }
+                    }, 2000);
+                }
+            }
+            
+            // Inicializar
+            updateGlobalStatus();
+        });
+    </script>
+</body>
+</html>
