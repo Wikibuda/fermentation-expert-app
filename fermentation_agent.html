@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- PWA Configuration (Responsible) -->
-    <link rel="manifest" href="/fermentation-expert-app/site.webmanifest">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Fermentation Expert">
-    <link rel="apple-touch-icon" href="/fermentation-expert-app/apple-touch-icon.png">
-    <meta name="theme-color" content="#2e7d32">
     <!-- PWA Configuration -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧫 Especialista en Fermentación Avanzado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA -->
     <link rel="manifest" href="/fermentation-expert-app/site.webmanifest">
-    <link rel="manifest" href="/fermentation-expert-app/pwa/manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Fermentation Expert">
@@ -19,15 +17,27 @@
     <meta name="theme-color" content="#2e7d32">
     <meta name="application-name" content="Fermentation Expert">
     <meta name="msapplication-TileColor" content="#2e7d32">
-    <meta name="msapplication-config" content="/fermentation-expert-app/browserconfig.xml">
     
-    <!-- PWA Install Prompt -->
-    <script>
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧫 Especialista en Fermentación Avanzado</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="mask-icon" href="favicon.svg" color="#2e7d32">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">
+    <meta property="og:title" content="Fermentation Expert App">
+    <meta property="og:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">
+    <meta property="og:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">
+    <meta property="twitter:title" content="Fermentation Expert App">
+    <meta property="twitter:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">
+    <meta property="twitter:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">
+    
     <style>
         :root {
             --primary: #2e7d32;
@@ -475,6 +485,218 @@
             border-top: 2px solid #e0e0e0;
         }
 
+        /* 🌀 Animaciones de espera */
+        .thinking-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px;
+            min-height: 140px;
+            background: linear-gradient(135deg, #f8fdf8 0%, #f0f9f0 100%);
+            border-radius: 16px;
+            margin: 15px 0;
+            border-left: 5px solid #2e7d32;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .thinking-title {
+            font-size: 1.2rem;
+            color: #1b5e20;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .thinking-subtitle {
+            font-size: 0.95rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .fermentation-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .thinking-spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid rgba(46, 125, 50, 0.2);
+            border-top-color: #2e7d32;
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+            margin: 10px 0 20px 0;
+        }
+        
+        .thinking-progress {
+            width: 220px;
+            height: 6px;
+            background: #e8f5e9;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .thinking-progress-bar {
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, #2e7d32, #4caf50, #8bc34a);
+            border-radius: 3px;
+            animation: progress 2.5s ease-in-out infinite;
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .thinking-dot {
+            width: 14px;
+            height: 14px;
+            background: #2e7d32;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+        
+        .thinking-dot:nth-child(1) {
+            animation: pulse 1.8s infinite;
+        }
+        
+        .thinking-dot:nth-child(2) {
+            animation: pulse 1.8s infinite 0.3s;
+        }
+        
+        .thinking-dot:nth-child(3) {
+            animation: pulse 1.8s infinite 0.6s;
+        }
+        
+        .thinking-text {
+            font-size: 1rem;
+            color: #37474f;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 24px;
+        }
+        
+        .thinking-dynamic-text {
+            display: inline-block;
+            min-width: 250px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .bubbles-container {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin: 20px 0;
+        }
+        
+        .bubble {
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(145deg, #2e7d32, #4caf50);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: bubble-rise 2.2s infinite;
+            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
+        }
+        
+        .bubble:nth-child(2) {
+            animation-delay: 0.4s;
+            background: linear-gradient(145deg, #4caf50, #8bc34a);
+        }
+        
+        .bubble:nth-child(3) {
+            animation-delay: 0.8s;
+            background: linear-gradient(145deg, #8bc34a, #cddc39);
+        }
+        
+        .thinking-tips {
+            font-size: 0.9rem;
+            color: #5a6268;
+            margin-top: 20px;
+            padding: 12px 15px;
+            background: rgba(46, 125, 50, 0.08);
+            border-radius: 10px;
+            text-align: center;
+            max-width: 320px;
+            line-height: 1.4;
+            border: 1px dashed rgba(76, 175, 80, 0.3);
+            animation: fadeInOut 8s infinite;
+        }
+        
+        /* Animaciones */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-12px) rotate(5deg);
+            }
+            66% {
+                transform: translateY(-6px) rotate(-5deg);
+            }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes progress {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(180%); }
+            100% { transform: translateX(350%); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-25px) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -495,505 +717,33 @@
                 flex-direction: column;
                 text-align: center;
             }
+            
+            .thinking-container {
+                padding: 20px 15px;
+                min-height: 130px;
+                margin: 10px 0;
+            }
+            
+            .fermentation-icon {
+                font-size: 2.5rem;
+            }
+            
+            .thinking-progress {
+                width: 180px;
+            }
+            
+            .thinking-dynamic-text {
+                min-width: 200px;
+                font-size: 0.95rem;
+            }
+            
+            .thinking-tips {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+                max-width: 280px;
+            }
         }
-    /* 🌀 Animaciones de espera */
-    .thinking-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        min-height: 120px;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 15px;
-        margin: 10px 0;
-        border-left: 4px solid #2e7d32;
-    }
-    
-    .thinking-title {
-        font-size: 1.1rem;
-        color: #2e7d32;
-        margin-bottom: 15px;
-        font-weight: 600;
-        text-align: center;
-    }
-    
-    .thinking-subtitle {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin-bottom: 20px;
-        text-align: center;
-        font-style: italic;
-    }
-    
-    /* Opción 1: Puntos animados */
-    .thinking-dots {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
-    
-    .thinking-dot {
-        width: 12px;
-        height: 12px;
-        background: #2e7d32;
-        border-radius: 50%;
-        opacity: 0.6;
-    }
-    
-    .thinking-dot:nth-child(1) {
-        animation: pulse 1.5s infinite;
-    }
-    
-    .thinking-dot:nth-child(2) {
-        animation: pulse 1.5s infinite 0.3s;
-    }
-    
-    .thinking-dot:nth-child(3) {
-        animation: pulse 1.5s infinite 0.6s;
-    }
-    
-    /* Opción 2: Barra de progreso animada */
-    .thinking-progress {
-        width: 200px;
-        height: 4px;
-        background: #dee2e6;
-        border-radius: 2px;
-        overflow: hidden;
-        margin: 15px 0;
-    }
-    
-    .thinking-progress-bar {
-        height: 100%;
-        width: 30%;
-        background: linear-gradient(90deg, #2e7d32, #4caf50);
-        border-radius: 2px;
-        animation: progress 2s ease-in-out infinite;
-    }
-    
-    /* Opción 3: Ícono de fermentación animado */
-    .fermentation-icon {
-        font-size: 2.5rem;
-        margin-bottom: 15px;
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    /* Opción 4: Spinner moderno */
-    .thinking-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(46, 125, 50, 0.2);
-        border-top-color: #2e7d32;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 15px 0;
-    }
-    
-    /* Opción 5: Burbujas de fermentación */
-    .bubbles-container {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin: 20px 0;
-    }
-    
-    .bubble {
-        width: 20px;
-        height: 20px;
-        background: #2e7d32;
-        border-radius: 50%;
-        opacity: 0.7;
-        animation: bubble-rise 2s infinite;
-    }
-    
-    .bubble:nth-child(2) {
-        animation-delay: 0.3s;
-        background: #4caf50;
-    }
-    
-    .bubble:nth-child(3) {
-        animation-delay: 0.6s;
-        background: #8bc34a;
-    }
-    
-    /* Animaciones */
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 0.6;
-            transform: scale(1);
-        }
-        50% {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-    }
-    
-    @keyframes progress {
-        0% {
-            transform: translateX(-100%);
-        }
-        50% {
-            transform: translateX(150%);
-        }
-        100% {
-            transform: translateX(350%);
-        }
-    }
-    
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0) rotate(0deg);
-        }
-        50% {
-            transform: translateY(-10px) rotate(5deg);
-        }
-    }
-    
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-    
-    @keyframes bubble-rise {
-        0% {
-            transform: translateY(0) scale(1);
-            opacity: 0.7;
-        }
-        50% {
-            transform: translateY(-20px) scale(1.1);
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(-40px) scale(1);
-            opacity: 0;
-        }
-    }
-    
-    /* Texto animado */
-    .thinking-text {
-        font-size: 1rem;
-        color: #495057;
-        margin: 10px 0;
-        text-align: center;
-    }
-    
-    .thinking-dynamic-text {
-        display: inline-block;
-        min-width: 200px;
-        text-align: center;
-    }
-    
-    .thinking-tips {
-        font-size: 0.85rem;
-        color: #6c757d;
-        margin-top: 15px;
-        padding: 10px;
-        background: rgba(46, 125, 50, 0.05);
-        border-radius: 8px;
-        text-align: center;
-        max-width: 300px;
-        animation: fadeInOut 6s infinite;
-    }
-    
-    @keyframes fadeInOut {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-    }
-    
-    /* Efectos de aparición */
-    .thinking-message {
-        animation: slideIn 0.5s ease-out;
-    }
-    
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .thinking-container {
-            padding: 15px;
-            min-height: 100px;
-        }
-        
-        .fermentation-icon {
-            font-size: 2rem;
-        }
-        
-        .thinking-progress {
-            width: 150px;
-        }
-    }
-    /* 🌀 Animaciones de espera mejoradas */
-    .thinking-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 25px 20px;
-        min-height: 140px;
-        background: linear-gradient(135deg, #f8fdf8 0%, #f0f9f0 100%);
-        border-radius: 16px;
-        margin: 15px 0;
-        border-left: 5px solid #2e7d32;
-        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
-        animation: slideIn 0.5s ease-out;
-    }
-    
-    .thinking-title {
-        font-size: 1.2rem;
-        color: #1b5e20;
-        margin-bottom: 8px;
-        font-weight: 700;
-        text-align: center;
-    }
-    
-    .thinking-subtitle {
-        font-size: 0.95rem;
-        color: #4caf50;
-        margin-bottom: 20px;
-        text-align: center;
-        font-style: italic;
-    }
-    
-    .fermentation-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    .thinking-spinner {
-        width: 45px;
-        height: 45px;
-        border: 4px solid rgba(46, 125, 50, 0.2);
-        border-top-color: #2e7d32;
-        border-radius: 50%;
-        animation: spin 1.2s linear infinite;
-        margin: 10px 0 20px 0;
-    }
-    
-    .thinking-progress {
-        width: 220px;
-        height: 6px;
-        background: #e8f5e9;
-        border-radius: 3px;
-        overflow: hidden;
-        margin: 15px 0;
-    }
-    
-    .thinking-progress-bar {
-        height: 100%;
-        width: 35%;
-        background: linear-gradient(90deg, #2e7d32, #4caf50, #8bc34a);
-        border-radius: 3px;
-        animation: progress 2.5s ease-in-out infinite;
-    }
-    
-    .thinking-dots {
-        display: flex;
-        gap: 10px;
-        margin: 15px 0;
-    }
-    
-    .thinking-dot {
-        width: 14px;
-        height: 14px;
-        background: #2e7d32;
-        border-radius: 50%;
-        opacity: 0.6;
-    }
-    
-    .thinking-dot:nth-child(1) {
-        animation: pulse 1.8s infinite;
-    }
-    
-    .thinking-dot:nth-child(2) {
-        animation: pulse 1.8s infinite 0.3s;
-    }
-    
-    .thinking-dot:nth-child(3) {
-        animation: pulse 1.8s infinite 0.6s;
-    }
-    
-    .thinking-text {
-        font-size: 1rem;
-        color: #37474f;
-        margin: 15px 0;
-        text-align: center;
-        min-height: 24px;
-    }
-    
-    .thinking-dynamic-text {
-        display: inline-block;
-        min-width: 250px;
-        text-align: center;
-        font-weight: 500;
-    }
-    
-    .bubbles-container {
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        margin: 20px 0;
-    }
-    
-    .bubble {
-        width: 22px;
-        height: 22px;
-        background: linear-gradient(145deg, #2e7d32, #4caf50);
-        border-radius: 50%;
-        opacity: 0.8;
-        animation: bubble-rise 2.2s infinite;
-        box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
-    }
-    
-    .bubble:nth-child(2) {
-        animation-delay: 0.4s;
-        background: linear-gradient(145deg, #4caf50, #8bc34a);
-    }
-    
-    .bubble:nth-child(3) {
-        animation-delay: 0.8s;
-        background: linear-gradient(145deg, #8bc34a, #cddc39);
-    }
-    
-    .thinking-tips {
-        font-size: 0.9rem;
-        color: #5a6268;
-        margin-top: 20px;
-        padding: 12px 15px;
-        background: rgba(46, 125, 50, 0.08);
-        border-radius: 10px;
-        text-align: center;
-        max-width: 320px;
-        line-height: 1.4;
-        border: 1px dashed rgba(76, 175, 80, 0.3);
-        animation: fadeInOut 8s infinite;
-    }
-    
-    /* Animaciones */
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0) rotate(0deg);
-        }
-        33% {
-            transform: translateY(-12px) rotate(5deg);
-        }
-        66% {
-            transform: translateY(-6px) rotate(-5deg);
-        }
-    }
-    
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    @keyframes progress {
-        0% { transform: translateX(-100%); }
-        50% { transform: translateX(180%); }
-        100% { transform: translateX(350%); }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 0.4;
-            transform: scale(0.9);
-        }
-        50% {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-    }
-    
-    @keyframes bubble-rise {
-        0% {
-            transform: translateY(0) scale(1);
-            opacity: 0.7;
-        }
-        50% {
-            transform: translateY(-25px) scale(1.1);
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(-50px) scale(1);
-            opacity: 0;
-        }
-    }
-    
-    @keyframes fadeInOut {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-    }
-    
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .thinking-container {
-            padding: 20px 15px;
-            min-height: 130px;
-            margin: 10px 0;
-        }
-        
-        .fermentation-icon {
-            font-size: 2.5rem;
-        }
-        
-        .thinking-progress {
-            width: 180px;
-        }
-        
-        .thinking-dynamic-text {
-            min-width: 200px;
-            font-size: 0.95rem;
-        }
-        
-        .thinking-tips {
-            font-size: 0.85rem;
-            padding: 10px 12px;
-            max-width: 280px;
-        }
-    }
     </style>
-    <!-- Favicon and PWA -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-    <link rel="mask-icon" href="favicon.svg" color="#2e7d32">
-    <meta name="msapplication-TileColor" content="#2e7d32">
-    <meta name="theme-color" content="#2e7d32">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">
-    <meta property="og:title" content="Fermentation Expert App">
-    <meta property="og:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">
-    <meta property="og:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://wikibuda.github.io/fermentation-expert-app/fermentation_agent.html">
-    <meta property="twitter:title" content="Fermentation Expert App">
-    <meta property="twitter:description" content="Aplicación web especializada en procesos de fermentación con inteligencia artificial">
-    <meta property="twitter:image" content="https://wikibuda.github.io/fermentation-expert-app/og-image.png">
-    
 </head>
 <body>
     <div class="container">
@@ -1025,7 +775,7 @@
                         <div class="status-dot" id="statusDot"></div>
                         <span id="statusText">No configurado</span>
                     </div>
-                    <button class="btn btn-primary" id="saveApiKey" onclick="saveApiKey()">
+                    <button class="btn btn-primary" onclick="saveApiKey()">
                         <i class="fas fa-save"></i> Guardar API Key
                     </button>
                     <button class="btn btn-secondary" onclick="testConnection()" style="margin-top: 10px;">
@@ -1085,7 +835,6 @@
 
             <main class="chat-container">
                 <div class="chat-messages" id="chatMessages">
-                    <!-- Mensajes aparecerán aquí -->
                     <div class="message bot-message">
                         <div class="message-header">
                             <i class="fas fa-robot"></i>
@@ -1129,528 +878,484 @@
     </div>
 
     <script>
-    </script>
-    <!-- Service Worker Registration -->
-    <script>
-        /* 🌀 Animaciones de espera dinámicas */
-        const thinkingTips = [
-            "💡 Analizando técnicas de fermentación...",
-            "🔬 Revisando parámetros microbiológicos...",
-            "🌿 Consultando bases de datos de cultivos...",
-            "⚗️ Evaluando condiciones óptimas...",
-            "⏱️ Calculando tiempos de proceso...",
-            "🌡️ Optimizando temperaturas...",
-            "📊 Procesando datos históricos...",
-            "🧪 Simulando resultados...",
-            "🔍 Buscando soluciones similares...",
-            "📚 Revisando literatura científica...",
-            "🍞 Ajustando receta para mejor fermentación...",
-            "🥬 Optimizando condiciones para vegetales...",
-            "🍺 Calculando parámetros para cerveza...",
-            "🍶 Ajustando proporciones para sake...",
-            "🧀 Evaluando maduración óptima..."
-        ];
-        
-        // const fermentationFacts = (DUPLICADA - COMENTADA) [
-            "¿Sabías que la fermentación puede aumentar el valor nutricional de los alimentos?",
-            "La temperatura ideal para la fermentación láctica es entre 18-22°C",
-            "El kimchi coreano puede tener más de 200 variedades",
-            "La masa madre puede vivir indefinidamente si se alimenta regularmente",
-            "El proceso de fermentación produce gases CO₂, ¡por eso burbujea!",
-            "Los probióticos en alimentos fermentados ayudan a la digestión",
-            "La fermentación es una de las formas más antiguas de conservación",
-            "Cada fermentación es única como una huella digital"
-        ];
-        
-        let thinkingInterval;
-        let tipInterval;
-        let tipIndex = 0;
-        let thinkingIndex = 0;
-        
-        function startThinkingAnimations() {
-            const dynamicText = document.getElementById("dynamicThinkingText");
-            const tipsElement = document.getElementById("thinkingTips");
+        // ==================== CONFIGURACIÓN INICIAL ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Página cargada - inicializando...');
             
-            if (dynamicText) {
-                thinkingIndex = 0;
-                thinkingInterval = setInterval(() => {
-                    thinkingIndex = (thinkingIndex + 1) % thinkingTips.length;
-                    dynamicText.textContent = thinkingTips[thinkingIndex];
-                    
-                    // Efecto de transición
-                    dynamicText.style.opacity = 0.7;
-                    setTimeout(() => {
-                        dynamicText.style.opacity = 1;
-                        dynamicText.style.transition = "opacity 0.5s";
-                    }, 50);
-                }, 3000); // Cambia cada 3 segundos
-            }
-            
-            if (tipsElement) {
-                tipIndex = 0;
-                tipInterval = setInterval(() => {
-                    tipIndex = (tipIndex + 1) % fermentationFacts.length;
-                    tipsElement.textContent = `💡 ${fermentationFacts[tipIndex]}`;
-                    
-                    // Efecto de fade
-                    tipsElement.style.animation = "none";
-                    setTimeout(() => {
-                        tipsElement.style.animation = "fadeInOut 6s infinite";
-                    }, 10);
-                }, 6000); // Cambia cada 6 segundos
-            }
-            
-            // También animar otros elementos
-            animateProgressBar();
-        }
-        
-        function stopThinkingAnimations() {
-            if (thinkingInterval) {
-                clearInterval(thinkingInterval);
-            }
-            if (tipInterval) {
-                clearInterval(tipInterval);
-            }
-        }
-        
-        function animateProgressBar() {
-            const progressBar = document.querySelector(".thinking-progress-bar");
-            if (progressBar) {
-                // La animación CSS ya lo hace, pero podemos agregar variación
-                setInterval(() => {
-                    const randomWidth = 20 + Math.random() * 40;
-                    progressBar.style.width = `${randomWidth}%`;
-                }, 1500);
-            }
-        }
-        
-        // Iniciar animaciones cuando se muestra el mensaje de "pensando"
-        function showThinkingMessage() {
-            startThinkingAnimations();
-        }
-        
-        // Detener animaciones cuando llega la respuesta
-        function hideThinkingMessage() {
-            stopThinkingAnimations();
-        }
-    
-    /* 🌀 Sistema de texto dinámico para animaciones de espera */
-    // const thinkingPhrases = (DUPLICADA) [
-        "🔬 Analizando parámetros microbiológicos...",
-        "🌡️ Evaluando temperaturas óptimas...",
-        "⏱️ Calculando tiempos de fermentación...",
-        "📊 Procesando datos históricos...",
-        "🧪 Simulando resultados posibles...",
-        "🌿 Consultando bases de cultivos...",
-        "🍞 Optimizando receta para mejor fermentación...",
-        "🥬 Ajustando condiciones para vegetales...",
-        "🍺 Calculando parámetros para cerveza artesanal...",
-        "🍶 Evaluando proporciones para sake...",
-        "🧀 Analizando maduración óptima...",
-        "⚗️ Revisando condiciones químicas...",
-        "📚 Consultando literatura científica...",
-        "💭 Buscando soluciones similares...",
-        "🎯 Preparando respuesta personalizada..."
-    ];
-    
-    // const fermentationFacts = (DUPLICADA - COMENTADA) [
-        "💡 La fermentación puede aumentar el valor nutricional de los alimentos",
-        "🌡️ La temperatura ideal para fermentación láctica es 18-22°C",
-        "⏳ El kimchi coreano puede tener más de 200 variedades diferentes",
-        "🦠 Los probióticos en alimentos fermentados ayudan a la digestión",
-        "🌀 La fermentación es una de las formas más antiguas de conservación",
-        "🌿 Cada fermentación es única como una huella digital",
-        "⚗️ El proceso produce gases CO₂, ¡por eso burbujea!",
-        "🧪 La masa madre puede vivir indefinidamente si se alimenta",
-        "📈 La fermentación lenta desarrolla sabores más complejos",
-        "🔬 Los microorganismos trabajan en simbiosis durante la fermentación"
-    ];
-    
-    let thinkingInterval = null;
-    let tipsInterval = null;
-    let currentThinkingIndex = 0;
-    let currentTipIndex = 0;
-    
-//    function startLoadingAnimations() {
-//        const thinkingText = document.getElementById("dynamicThinkingText");
-//        const tipsElement = document.getElementById("thinkingTips");
-//        
-//        // Limpiar intervalos anteriores por seguridad
-//        if (thinkingInterval) clearInterval(thinkingInterval);
-//        if (tipsInterval) clearInterval(tipsInterval);
-//        
-//        // Animación de texto dinámico
-//        if (thinkingText) {
-//            currentThinkingIndex = 0;
-//            thinkingText.textContent = thinkingPhrases[0];
-//            
-//            thinkingInterval = setInterval(() => {
-//                currentThinkingIndex = (currentThinkingIndex + 1) % thinkingPhrases.length;
-//                thinkingText.style.opacity = "0.5";
-//                thinkingText.style.transform = "translateY(5px)";
-//                
-//                setTimeout(() => {
-//                    thinkingText.textContent = thinkingPhrases[currentThinkingIndex];
-//                    thinkingText.style.opacity = "1";
-//                    thinkingText.style.transform = "translateY(0)";
-//                    thinkingText.style.transition = "all 0.3s ease";
-//                }, 150);
-//            }, 2500); // Cambia cada 2.5 segundos
-//        }
-        
-        // Animación de tips
-        if (tipsElement) {
-            currentTipIndex = 0;
-            tipsElement.textContent = fermentationFacts[0];
-            
-            tipsInterval = setInterval(() => {
-                currentTipIndex = (currentTipIndex + 1) % fermentationFacts.length;
-                tipsElement.style.animation = "none";
+            // Cargar API Key si existe
+            const savedKey = localStorage.getItem('deepseek_api_key');
+            if (savedKey) {
+                window.DEEPSEEK_API_KEY = savedKey;
+                const input = document.getElementById('apiKey');
+                if (input) input.value = savedKey;
                 
-                setTimeout(() => {
-                    tipsElement.textContent = fermentationFacts[currentTipIndex];
-                    tipsElement.style.animation = "fadeInOut 8s infinite";
-                }, 100);
-            }, 6000); // Cambia cada 6 segundos
-        }
-        
-        console.log("🌀 Animaciones de espera iniciadas");
-    }
-    
-    function stopLoadingAnimations() {
-        if (thinkingInterval) {
-            clearInterval(thinkingInterval);
-            thinkingInterval = null;
-        }
-        if (tipsInterval) {
-            clearInterval(tipsInterval);
-            tipsInterval = null;
-        }
-        console.log("🌀 Animaciones de espera detenidas");
-    }
-    
-    // Integración con la función existente de envío de mensajes
-    function showEnhancedThinkingMessage() {
-        // Esperar un poco para que el DOM se actualice
-        setTimeout(startLoadingAnimations, 100);
-    }
-    
-    // Detectar cuando se muestra el mensaje de "pensando"
-    document.addEventListener("DOMContentLoaded", function() {
-        // Sobrescribir la función que muestra el mensaje de pensando
-        const originalShowThinking = window.showThinkingMessage || function() {};
-        window.showThinkingMessage = function() {
-            originalShowThinking();
-            showEnhancedThinkingMessage();
-        };
-        
-        // También monitorear cambios en el DOM para detectar mensajes de pensando
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-                    for (let i = 0; i < mutation.addedNodes.length; i++) {
-                        const node = mutation.addedNodes[i];
-                        if (node.nodeType === 1 && 
-                            (node.textContent.includes("Especialista") || 
-                             node.classList && node.classList.contains("thinking-container"))) {
-                            setTimeout(startLoadingAnimations, 300);
-                        }
-                    }
+                const status = document.getElementById('statusText');
+                if (status) {
+                    status.textContent = '✅ API Key cargada';
+                    const dot = document.getElementById('statusDot');
+                    if (dot) dot.classList.add('connected');
                 }
-            });
+                console.log('🔑 API Key cargada al inicio');
+            }
+            
+            // Configurar slider de temperatura
+            const tempSlider = document.getElementById('temperature');
+            const tempValue = document.getElementById('tempValue');
+            if (tempSlider && tempValue) {
+                tempSlider.addEventListener('input', function() {
+                    tempValue.textContent = this.value;
+                    localStorage.setItem('fermentation_temp', this.value);
+                });
+                
+                // Cargar valor guardado
+                const savedTemp = localStorage.getItem('fermentation_temp');
+                if (savedTemp) {
+                    tempSlider.value = savedTemp;
+                    tempValue.textContent = savedTemp;
+                }
+            }
+            
+            // Configurar nivel de usuario
+            const userLevel = document.getElementById('userLevel');
+            if (userLevel) {
+                userLevel.addEventListener('change', function() {
+                    localStorage.setItem('fermentation_user_level', this.value);
+                });
+                
+                // Cargar valor guardado
+                const savedLevel = localStorage.getItem('fermentation_user_level');
+                if (savedLevel) {
+                    userLevel.value = savedLevel;
+                }
+            }
         });
-        
-        observer.observe(document.body, { childList: true, subtree: true });
-    });
-    /* 🔑 FUNCIONES PARA MANEJAR API KEY */
-    
-    // Guardar API Key en localStorage
-    function saveApiKey() {
-        console.log('🔑 Intentando guardar API Key...');
-        
-        const apiKeyInput = document.getElementById('apiKey');
-        const statusElement = document.getElementById('apiKeyStatus');
-        
-        if (!apiKeyInput) {
-            console.error('❌ No se encontró el elemento apiKey');
-            return;
-        }
-        
-        const apiKey = apiKeyInput.value.trim();
-        
-        if (!apiKey) {
-            if (statusElement) {
-                statusElement.textContent = '⚠️ Por favor, ingresa una API Key';
-                statusElement.style.color = '#ff9800';
-            }
-            console.warn('⚠️ API Key vacía');
-            return;
-        }
-        
-        try {
-            // Guardar en localStorage
-            localStorage.setItem('deepseek_api_key', apiKey);
-            
-            // También en variable global
-            window.DEEPSEEK_API_KEY = apiKey;
-            
-            // Mostrar confirmación
-            if (statusElement) {
-                statusElement.textContent = '✅ API Key guardada correctamente';
-                statusElement.style.color = '#4caf50';
-                
-                // Ocultar mensaje después de 3 segundos
-                setTimeout(() => {
-                    statusElement.textContent = 'Listo para usar';
-                    statusElement.style.color = '#666';
-                }, 3000);
-            }
-            
-            console.log('✅ API Key guardada (primeros 5 caracteres):', apiKey.substring(0, 5) + '...');
-            
-            // Habilitar botón de prueba si existe
-            const testBtn = document.getElementById('testApiBtn');
-            if (testBtn) {
-                testBtn.disabled = false;
-                testBtn.textContent = 'Probar Conexión';
-            }
-            
-        } catch (error) {
-            console.error('❌ Error guardando API Key:', error);
-            if (statusElement) {
-                statusElement.textContent = '❌ Error al guardar';
-                statusElement.style.color = '#f44336';
-            }
-        }
-    }
-    
-    // Probar conexión con la API
-    async function testConnection() {
-        console.log('🔌 Probando conexión con API...');
-        
-        const statusElement = document.getElementById('apiKeyStatus');
-        const apiKey = localStorage.getItem('deepseek_api_key') || window.DEEPSEEK_API_KEY;
-        
-        if (!apiKey) {
-            if (statusElement) {
-                statusElement.textContent = '⚠️ Primero guarda una API Key';
-                statusElement.style.color = '#ff9800';
-            }
-            console.warn('⚠️ No hay API Key para probar');
-            return;
-        }
-        
-        if (statusElement) {
-            statusElement.textContent = '🔄 Probando conexión...';
-            statusElement.style.color = '#2196f3';
-        }
-        
-        try {
-            // Hacer una prueba simple a la API de DeepSeek
-            const response = await fetch('https://api.deepseek.com/v1/models', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Conexión exitosa:', data);
-                
-                if (statusElement) {
-                    statusElement.textContent = `✅ Conexión exitosa (${data.data?.length || 0} modelos disponibles)`;
-                    statusElement.style.color = '#4caf50';
-                }
-                
-                // Mostrar alerta de éxito
-                alert('✅ ¡Conexión exitosa con DeepSeek API!\nLa API Key funciona correctamente.');
-                
-            } else {
-                console.error('❌ Error en la respuesta:', response.status);
-                
-                if (statusElement) {
-                    if (response.status === 401) {
-                        statusElement.textContent = '❌ API Key inválida o expirada';
-                    } else {
-                        statusElement.textContent = `❌ Error ${response.status} en la conexión`;
-                    }
-                    statusElement.style.color = '#f44336';
-                }
-                
-                alert(`❌ Error en la conexión: ${response.statusText || 'Código ' + response.status}`);
-            }
-            
-        } catch (error) {
-            console.error('❌ Error probando conexión:', error);
-            
-            if (statusElement) {
-                statusElement.textContent = '❌ Error de red o conexión';
-                statusElement.style.color = '#f44336';
-            }
-            
-            alert('❌ Error de red: ' + error.message);
-        }
-    }
-    
-    // Cargar API Key automáticamente al iniciar
-    function loadApiKey() {
-        const savedApiKey = localStorage.getItem('deepseek_api_key');
-        if (savedApiKey) {
-            window.DEEPSEEK_API_KEY = savedApiKey;
-            console.log('🔑 API Key cargada de localStorage');
-            
-            // Rellenar el input si existe
-            const apiKeyInput = document.getElementById('apiKey');
-            if (apiKeyInput) {
-                apiKeyInput.value = savedApiKey;
-            }
-            
-            // Actualizar status
-            const statusElement = document.getElementById('apiKeyStatus');
-            if (statusElement) {
-                statusElement.textContent = '✅ API Key cargada';
-                statusElement.style.color = '#4caf50';
-            }
-        }
-    }
-    
-    // Inicializar cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-        loadApiKey();
-        console.log('✅ Funciones de API Key inicializadas');
-    });
-    /* 🔑 FUNCIONES PARA API KEY - DEFINIDAS GLOBALMENTE */
-    window.saveApiKey = function() {
-        console.log('🔑 saveApiKey ejecutándose...');
-        
-        const input = document.getElementById('apiKey');
-        const status = document.getElementById('apiKeyStatus');
-        
-        if (!input) {
-            console.error('❌ No se encontró elemento apiKey');
-            alert('Error: No se encontró el campo para API Key');
-            return;
-        }
-        
-        const apiKey = input.value.trim();
-        
-        if (!apiKey) {
-            if (status) {
-                status.textContent = '⚠️ Ingresa una API Key primero';
-                status.style.color = '#ff9800';
-            }
-            alert('Por favor, ingresa una API Key');
-            return;
-        }
-        
-        try {
-            // Guardar en localStorage
-            localStorage.setItem('deepseek_api_key', apiKey);
-            // Guardar en variable global
-            window.DEEPSEEK_API_KEY = apiKey;
-            
-            if (status) {
-                status.textContent = '✅ API Key guardada correctamente';
-                status.style.color = '#4caf50';
-            }
-            
-            console.log('✅ API Key guardada:', apiKey.substring(0, 10) + '...');
-            alert('API Key guardada exitosamente');
-            
-        } catch (error) {
-            console.error('❌ Error al guardar:', error);
-            if (status) {
-                status.textContent = '❌ Error al guardar';
-                status.style.color = '#f44336';
-            }
-            alert('Error al guardar la API Key');
-        }
-    };
-    
-    window.testConnection = async function() {
-        console.log('🔌 testConnection ejecutándose...');
-        
-        const status = document.getElementById('apiKeyStatus');
-        const apiKey = localStorage.getItem('deepseek_api_key') || window.DEEPSEEK_API_KEY;
-        
-        if (!apiKey) {
-            if (status) {
-                status.textContent = '⚠️ Guarda una API Key primero';
-                status.style.color = '#ff9800';
-            }
-            alert('Guarda una API Key antes de probar la conexión');
-            return;
-        }
-        
-        if (status) {
-            status.textContent = '🔄 Probando conexión...';
-            status.style.color = '#2196f3';
-        }
-        
-        try {
-            // Prueba simple a la API
-            const response = await fetch('https://api.deepseek.com/v1/models', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Conexión exitosa:', data);
-                
-                if (status) {
-                    status.textContent = `✅ Conexión exitosa (${data.data?.length || 0} modelos)`;
-                    status.style.color = '#4caf50';
-                }
-                
-                alert(`¡Conexión exitosa!nModelos disponibles: ${data.data?.length || 0}`);
-            } else {
-                console.error('❌ Error en respuesta:', response.status);
-                
-                if (status) {
-                    status.textContent = `❌ Error ${response.status}`;
-                    status.style.color = '#f44336';
-                }
-                
-                alert(`Error en la conexión: ${response.status}`);
-            }
-            
-        } catch (error) {
-            console.error('❌ Error de red:', error);
-            
-            if (status) {
-                status.textContent = '❌ Error de red';
-                status.style.color = '#f44336';
-            }
-            
-            alert('Error de red: ' + error.message);
-        }
-    };
-    
-    // Cargar API Key al iniciar
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedKey = localStorage.getItem('deepseek_api_key');
-        if (savedKey) {
-            window.DEEPSEEK_API_KEY = savedKey;
-            console.log('🔑 API Key cargada al inicio:', savedKey.substring(0, 10) + '...');
+
+        // ==================== FUNCIONES DE API KEY ====================
+        window.saveApiKey = function() {
+            console.log('🔑 Guardando API Key...');
             
             const input = document.getElementById('apiKey');
-            if (input) input.value = savedKey;
+            const status = document.getElementById('statusText');
+            const dot = document.getElementById('statusDot');
             
-            const status = document.getElementById('apiKeyStatus');
+            if (!input) {
+                alert('Error: No se encontró el campo para API Key');
+                return;
+            }
+            
+            const apiKey = input.value.trim();
+            
+            if (!apiKey) {
+                if (status) {
+                    status.textContent = '⚠️ Ingresa una API Key primero';
+                    status.style.color = '#ff9800';
+                    if (dot) dot.classList.remove('connected');
+                }
+                alert('Por favor, ingresa una API Key');
+                return;
+            }
+            
+            try {
+                // Guardar en localStorage
+                localStorage.setItem('deepseek_api_key', apiKey);
+                // Guardar en variable global
+                window.DEEPSEEK_API_KEY = apiKey;
+                
+                if (status) {
+                    status.textContent = '✅ API Key guardada';
+                    status.style.color = '#4caf50';
+                }
+                if (dot) {
+                    dot.classList.add('connected');
+                }
+                
+                console.log('✅ API Key guardada:', apiKey.substring(0, 10) + '...');
+                alert('API Key guardada exitosamente');
+                
+            } catch (error) {
+                console.error('❌ Error al guardar:', error);
+                if (status) {
+                    status.textContent = '❌ Error al guardar';
+                    status.style.color = '#f44336';
+                    if (dot) dot.classList.remove('connected');
+                }
+                alert('Error al guardar la API Key');
+            }
+        };
+        
+        window.testConnection = async function() {
+            console.log('🔌 Probando conexión...');
+            
+            const status = document.getElementById('statusText');
+            const dot = document.getElementById('statusDot');
+            const apiKey = localStorage.getItem('deepseek_api_key') || window.DEEPSEEK_API_KEY;
+            
+            if (!apiKey) {
+                if (status) {
+                    status.textContent = '⚠️ Guarda una API Key primero';
+                    status.style.color = '#ff9800';
+                    if (dot) dot.classList.remove('connected');
+                }
+                alert('Guarda una API Key antes de probar la conexión');
+                return;
+            }
+            
             if (status) {
-                status.textContent = '✅ API Key cargada';
-                status.style.color = '#4caf50';
+                status.textContent = '🔄 Probando conexión...';
+                status.style.color = '#2196f3';
+            }
+            
+            try {
+                const response = await fetch('https://api.deepseek.com/v1/models', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Conexión exitosa:', data);
+                    
+                    if (status) {
+                        status.textContent = `✅ Conexión exitosa (${data.data?.length || 0} modelos)`;
+                        status.style.color = '#4caf50';
+                    }
+                    if (dot) dot.classList.add('connected');
+                    
+                    alert(`¡Conexión exitosa!\nModelos disponibles: ${data.data?.length || 0}`);
+                } else {
+                    console.error('❌ Error en respuesta:', response.status);
+                    
+                    if (status) {
+                        status.textContent = `❌ Error ${response.status}`;
+                        status.style.color = '#f44336';
+                    }
+                    if (dot) dot.classList.remove('connected');
+                    
+                    alert(`Error en la conexión: ${response.status}`);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error de red:', error);
+                
+                if (status) {
+                    status.textContent = '❌ Error de red';
+                    status.style.color = '#f44336';
+                }
+                if (dot) dot.classList.remove('connected');
+                
+                alert('Error de red: ' + error.message);
+            }
+        };
+
+        // ==================== SISTEMA DE CHAT ====================
+        let thinkingInterval = null;
+        let tipsInterval = null;
+        
+        const thinkingPhrases = [
+            "🔬 Analizando parámetros microbiológicos...",
+            "🌡️ Evaluando temperaturas óptimas...",
+            "⏱️ Calculando tiempos de fermentación...",
+            "📊 Procesando datos históricos...",
+            "🧪 Simulando resultados posibles...",
+            "🌿 Consultando bases de cultivos...",
+            "🍞 Optimizando receta para mejor fermentación...",
+            "🥬 Ajustando condiciones para vegetales..."
+        ];
+        
+        const fermentationFacts = [
+            "💡 La fermentación puede aumentar el valor nutricional de los alimentos",
+            "🌡️ La temperatura ideal para fermentación láctica es 18-22°C",
+            "⏳ El kimchi coreano puede tener más de 200 variedades diferentes",
+            "🦠 Los probióticos en alimentos fermentados ayudan a la digestión",
+            "🌀 La fermentación es una de las formas más antiguas de conservación",
+            "🌿 Cada fermentación es única como una huella digital",
+            "⚗️ El proceso produce gases CO₂, ¡por eso burbujea!",
+            "🧪 La masa madre puede vivir indefinidamente si se alimenta"
+        ];
+        
+        function startLoadingAnimations(container) {
+            const thinkingText = container.querySelector('.thinking-dynamic-text');
+            const tipsElement = container.querySelector('.thinking-tips');
+            
+            // Limpiar intervalos anteriores
+            if (thinkingInterval) clearInterval(thinkingInterval);
+            if (tipsInterval) clearInterval(tipsInterval);
+            
+            // Animación de texto dinámico
+            if (thinkingText) {
+                let currentIndex = 0;
+                thinkingText.textContent = thinkingPhrases[0];
+                
+                thinkingInterval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % thinkingPhrases.length;
+                    thinkingText.style.opacity = "0.5";
+                    thinkingText.style.transform = "translateY(5px)";
+                    
+                    setTimeout(() => {
+                        thinkingText.textContent = thinkingPhrases[currentIndex];
+                        thinkingText.style.opacity = "1";
+                        thinkingText.style.transform = "translateY(0)";
+                        thinkingText.style.transition = "all 0.3s ease";
+                    }, 150);
+                }, 2500);
+            }
+            
+            // Animación de tips
+            if (tipsElement) {
+                let currentTipIndex = 0;
+                tipsElement.textContent = fermentationFacts[0];
+                
+                tipsInterval = setInterval(() => {
+                    currentTipIndex = (currentTipIndex + 1) % fermentationFacts.length;
+                    tipsElement.style.animation = "none";
+                    
+                    setTimeout(() => {
+                        tipsElement.textContent = fermentationFacts[currentTipIndex];
+                        tipsElement.style.animation = "fadeInOut 8s infinite";
+                    }, 100);
+                }, 6000);
             }
         }
-        console.log('✅ Página cargada - funciones disponibles');
-    });
-    <script src="/fermentation-expert-app/pwa/register-sw.js">
+        
+        function stopLoadingAnimations() {
+            if (thinkingInterval) {
+                clearInterval(thinkingInterval);
+                thinkingInterval = null;
+            }
+            if (tipsInterval) {
+                clearInterval(tipsInterval);
+                tipsInterval = null;
+            }
+        }
+        
+        function showThinkingMessage() {
+            const chatMessages = document.getElementById('chatMessages');
+            if (!chatMessages) return;
+            
+            const thinkingHTML = `
+                <div class="message bot-message thinking-container" id="thinkingMessage">
+                    <div class="thinking-title">🧫 Procesando tu consulta...</div>
+                    <div class="thinking-subtitle">Analizando parámetros de fermentación</div>
+                    
+                    <div class="thinking-spinner"></div>
+                    
+                    <div class="thinking-progress">
+                        <div class="thinking-progress-bar"></div>
+                    </div>
+                    
+                    <div class="thinking-text">
+                        <span class="thinking-dynamic-text">🔬 Analizando parámetros microbiológicos...</span>
+                    </div>
+                    
+                    <div class="bubbles-container">
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                    </div>
+                    
+                    <div class="thinking-tips">
+                        💡 La fermentación puede aumentar el valor nutricional de los alimentos
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.innerHTML += thinkingHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            const thinkingContainer = document.getElementById('thinkingMessage');
+            startLoadingAnimations(thinkingContainer);
+        }
+        
+        function hideThinkingMessage() {
+            stopLoadingAnimations();
+            const thinkingMessage = document.getElementById('thinkingMessage');
+            if (thinkingMessage) {
+                thinkingMessage.remove();
+            }
+        }
+        
+        function addMessage(content, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            if (!chatMessages) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            const messageContent = isUser 
+                ? `<div class="message-header">
+                        <i class="fas fa-user"></i>
+                        <span>Tú</span>
+                    </div>
+                    <div class="message-content">${content}</div>`
+                : `<div class="message-header">
+                        <i class="fas fa-robot"></i>
+                        <span>Especialista en Fermentación</span>
+                    </div>
+                    <div class="message-content">${content}</div>`;
+            
+            messageDiv.innerHTML = messageContent;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            
+            if (!userInput || !userInput.value.trim()) {
+                return;
+            }
+            
+            const message = userInput.value.trim();
+            userInput.value = '';
+            sendButton.disabled = true;
+            
+            // Agregar mensaje del usuario
+            addMessage(message, true);
+            
+            // Mostrar animación de pensando
+            showThinkingMessage();
+            
+            try {
+                const apiKey = localStorage.getItem('deepseek_api_key');
+                if (!apiKey) {
+                    throw new Error('API Key no configurada');
+                }
+                
+                const userLevel = document.getElementById('userLevel').value;
+                const temperature = parseFloat(document.getElementById('temperature').value);
+                
+                const response = await fetch('https://api.deepseek.com/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: `Eres un especialista en fermentación avanzada. 
+                                El usuario es de nivel ${userLevel}. 
+                                Proporciona respuestas técnicas pero adaptadas a su nivel.
+                                Incluye detalles prácticos, medidas precisas, tiempos y temperaturas.
+                                Sé específico con técnicas de fermentación.`
+                            },
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        temperature: temperature,
+                        max_tokens: 2000
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Ocultar mensaje de pensando
+                hideThinkingMessage();
+                
+                // Agregar respuesta del bot
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    addMessage(data.choices[0].message.content, false);
+                } else {
+                    addMessage('Lo siento, no pude procesar tu consulta. Por favor, intenta de nuevo.', false);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                hideThinkingMessage();
+                addMessage(`❌ Error: ${error.message}. Verifica tu API Key e intenta de nuevo.`, false);
+            } finally {
+                sendButton.disabled = false;
+            }
+        }
+        
+        function quickQuery(query) {
+            const userInput = document.getElementById('userInput');
+            if (userInput) {
+                userInput.value = query;
+                sendMessage();
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function exportConversation() {
+            const messages = document.querySelectorAll('.message');
+            let conversation = 'Conversación con Especialista en Fermentación\n\n';
+            conversation += '='.repeat(50) + '\n\n';
+            
+            messages.forEach(msg => {
+                const isUser = msg.classList.contains('user-message');
+                const header = msg.querySelector('.message-header');
+                const content = msg.querySelector('.message-content');
+                
+                if (header && content) {
+                    const speaker = isUser ? 'TÚ' : 'ESPECIALISTA';
+                    conversation += `${speaker}:\n`;
+                    conversation += content.textContent + '\n\n';
+                    conversation += '-'.repeat(30) + '\n\n';
+                }
+            });
+            
+            const blob = new Blob([conversation], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fermentacion_conversacion_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Conversación exportada exitosamente');
+        }
+        
+        function clearChat() {
+            if (confirm('¿Estás seguro de que quieres limpiar toda la conversación?')) {
+                const chatMessages = document.getElementById('chatMessages');
+                if (chatMessages) {
+                    chatMessages.innerHTML = `
+                        <div class="message bot-message">
+                            <div class="message-header">
+                                <i class="fas fa-robot"></i>
+                                <span>Especialista en Fermentación</span>
+                            </div>
+                            <div class="message-content">
+                                ¡Hola! Soy tu especialista en fermentación avanzada. 🧫<br><br>
+                                Puedo ayudarte con:
+                                <ul>
+                                    <li><strong>Fermentos lácteos:</strong> kéfir, yogur, quesos artesanales</li>
+                                    <li><strong>Fermentos vegetales:</strong> kimchi, chucrut, encurtidos</li>
+                                    <li><strong>Bebidas fermentadas:</strong> kombucha, cerveza, vino</li>
+                                    <li><strong>Masas fermentadas:</strong> masa madre, injera, dosa</li>
+                                </ul>
+                                <p>Configura tu API Key en el panel izquierdo para comenzar.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                alert('Chat limpiado exitosamente');
+            }
+        }
     </script>
+    
+    <!-- Service Worker Registration -->
+    <script src="/fermentation-expert-app/pwa/register-sw.js"></script>
 </body>
-</html><!-- Production: domingo,  1 de febrero de 2026, 20:15:38 CST -->
+</html>
