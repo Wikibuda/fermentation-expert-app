@@ -41,7 +41,7 @@ text
 ### Configuración Local
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/fermentation-expert-app.git
+git clone https://github.com/Wikibuda/fermentation-expert-app.git
 cd fermentation-expert-app
 
 # Crear entorno virtual
@@ -125,7 +125,7 @@ Abre un Pull Request
 Distribuido bajo licencia MIT. Ver LICENSE para más información.
 
 👥 Autores
-Gus Luna - Desarrollo inicial - @gusluna
+Gus Luna - Desarrollo inicial - @Wikibuda
 
 🙏 Agradecimientos
 DeepSeek por la API de IA
@@ -133,7 +133,7 @@ DeepSeek por la API de IA
 Comunidad de fermentación por el conocimiento compartido
 
 📞 Contacto
-Proyecto: https://github.com/gusluna/fermentation-expert-app
+Proyecto: https://github.com/Wikibuda/fermentation-expert-app
 
 text
 
